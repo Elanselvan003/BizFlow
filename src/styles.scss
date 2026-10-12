@@ -58,42 +58,51 @@
   /* Spacing */
   --container-max-width: 1140px;
   --container-padding: 1.25rem;
+
+  /* Header & Glass Tokens */
+  --header-bg: rgba(252, 252, 253, 0.92);
+  --header-bg-scrolled: rgba(255, 255, 255, 0.98);
+  --header-border: #e2e8f0;
 }
 
-/* Dark Mode Tokens (Active when data-theme="dark" on root) */
+/* Rich Midnight Dark Mode Tokens */
 [data-theme="dark"] {
-  --color-bg: #090d16;
-  --color-surface: #0f172a;
-  --color-surface-subtle: #172033;
-  --color-surface-hover: #1e293b;
-  --color-border: #1e293b;
-  --color-border-subtle: #25334c;
-  --color-border-focus: #3b82f6;
+  --color-bg: #0b0f19;
+  --color-surface: #111827;
+  --color-surface-subtle: #162032;
+  --color-surface-hover: #1f2d44;
+  --color-border: rgba(255, 255, 255, 0.09);
+  --color-border-subtle: rgba(255, 255, 255, 0.05);
+  --color-border-focus: #38bdf8;
 
   --color-text-primary: #f8fafc;
   --color-text-secondary: #94a3b8;
   --color-text-tertiary: #64748b;
-  --color-text-inverse: #0f172a;
+  --color-text-inverse: #0b0f19;
 
-  --color-accent: #3b82f6;
+  --color-accent: #38bdf8;
   --color-accent-hover: #60a5fa;
   --color-accent-active: #2563eb;
-  --color-accent-subtle: rgba(59, 130, 246, 0.14);
-  --color-accent-border: rgba(59, 130, 246, 0.35);
+  --color-accent-subtle: rgba(56, 189, 248, 0.12);
+  --color-accent-border: rgba(56, 189, 248, 0.28);
+
+  --header-bg: rgba(11, 15, 25, 0.92);
+  --header-bg-scrolled: rgba(17, 24, 39, 0.98);
+  --header-border: rgba(255, 255, 255, 0.09);
 
   --color-success: #4ade80;
-  --color-success-bg: rgba(22, 101, 52, 0.24);
+  --color-success-bg: rgba(22, 101, 52, 0.28);
   --color-success-border: rgba(74, 222, 128, 0.35);
   --color-warning: #fbbf24;
-  --color-warning-bg: rgba(180, 83, 9, 0.24);
+  --color-warning-bg: rgba(180, 83, 9, 0.28);
   --color-error: #f87171;
-  --color-error-bg: rgba(185, 28, 28, 0.24);
+  --color-error-bg: rgba(185, 28, 28, 0.28);
   --color-error-border: rgba(248, 113, 113, 0.35);
 
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 6px 14px rgba(0, 0, 0, 0.6);
-  --shadow-lg: 0 14px 28px -4px rgba(0, 0, 0, 0.7);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.6);
 }
 
 /* ==========================================================================
@@ -135,6 +144,26 @@ body {
   flex-direction: column;
   overflow-x: hidden;
   background-color: var(--color-bg);
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+[data-theme="dark"] body {
+  background-color: var(--color-bg);
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(56, 189, 248, 0.1), transparent),
+    radial-gradient(ellipse 60% 40% at 85% 25%, rgba(37, 99, 235, 0.06), transparent);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Global Header & Nav Piercing Rules (Ensures zero encapsulation issues) */
+.site-header {
+  background-color: var(--header-bg) !important;
+  border-bottom: 1px solid var(--header-border) !important;
+}
+
+.site-header.scrolled {
+  background-color: var(--header-bg-scrolled) !important;
 }
 
 img, svg, video {
@@ -386,5 +415,69 @@ ul, ol {
   }
   100% {
     box-shadow: 0 0 0 0 rgba(22, 163, 74, 0);
+  }
+}
+
+/* ==========================================================================
+   DARK MODE ENHANCEMENTS & ELEVATIONS
+   Pierces all Angular encapsulation to ensure rich contrast & lighting
+   ========================================================================== */
+[data-theme="dark"] {
+  .theme-toggle-btn {
+    background-color: rgba(30, 41, 59, 0.7);
+    border-color: rgba(251, 191, 36, 0.25);
+    color: #fbbf24;
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.15);
+  }
+
+  .theme-toggle-btn:hover {
+    background-color: rgba(30, 41, 59, 0.95);
+    border-color: rgba(251, 191, 36, 0.5);
+    color: #fde047;
+    box-shadow: 0 0 16px rgba(251, 191, 36, 0.3);
+  }
+
+  .service-card, 
+  .project-card, 
+  .pricing-card, 
+  .profile-card, 
+  .contact-form-container, 
+  .contact-info-card {
+    background-color: rgba(17, 24, 39, 0.85);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .service-card:hover, 
+  .project-card:hover, 
+  .pricing-card:hover {
+    border-color: rgba(56, 189, 248, 0.35);
+    box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.55), 0 0 16px rgba(56, 189, 248, 0.08);
+  }
+
+  .pricing-card.popular-card {
+    border-color: #38bdf8;
+    box-shadow: 0 0 24px -2px rgba(56, 189, 248, 0.22);
+    background-color: rgba(17, 24, 39, 0.95);
+  }
+
+  .btn-secondary {
+    background-color: rgba(30, 41, 59, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #f8fafc;
+  }
+
+  .btn-secondary:hover {
+    background-color: rgba(51, 65, 85, 0.8);
+    border-color: rgba(255, 255, 255, 0.18);
+  }
+
+  .mobile-nav-drawer {
+    background-color: rgba(15, 23, 42, 0.98);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .browser-frame {
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
   }
 }
