@@ -113,6 +113,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
+  scroll-padding-top: 86px;
   text-rendering: optimizeLegibility;
 }
 
@@ -200,6 +201,7 @@ ul, ol {
 
 .section {
   padding-block: 4.5rem;
+  scroll-margin-top: 86px;
 }
 
 @media (max-width: 767px) {
@@ -356,9 +358,9 @@ ul, ol {
 }
 
 .badge-demo {
-  background-color: #f1f5f9;
-  color: #475569;
-  border: 1px solid #cbd5e1;
+  background-color: var(--color-surface-subtle);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
   font-size: 0.7rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
