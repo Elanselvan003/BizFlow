@@ -1,0 +1,173 @@
+<!-- Demo Project Top Notification Bar -->
+<aside class="demo-banner" aria-label="Demo notice">
+  <div class="container demo-banner-content">
+    <div class="demo-badge-wrap">
+      <span class="badge badge-demo">Concept Design</span>
+      <span class="demo-banner-text">
+        This is a concept website created for portfolio demonstration by <strong>{{ config.developer.name }}</strong>.
+      </span>
+    </div>
+    <a routerLink="/" fragment="projects" class="demo-back-btn">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      <span>Back to Portfolio</span>
+    </a>
+  </div>
+</aside>
+
+<!-- Fitness Brand Header -->
+<header class="fitness-header">
+  <div class="container fitness-nav">
+    <div class="fitness-brand">
+      <span class="fitness-logo">IRONCORE</span>
+      <span class="fitness-tag">STRENGTH &bull; BENGALURU</span>
+    </div>
+    <a [href]="generateTrialUrl()" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-sm">
+      <span>Book Free Trial on WhatsApp</span>
+    </a>
+  </div>
+</header>
+
+<main class="fitness-main">
+  <!-- Hero Section -->
+  <section class="fitness-hero">
+    <div class="container fitness-hero-grid">
+      <div class="fitness-hero-text">
+        <span class="fitness-pill">Strength, Mobility & Body Recomposition</span>
+        <h1 class="fitness-headline">Build Real Strength. Move Pain-Free. Perform at Your Peak.</h1>
+        <p class="fitness-intro">
+          No generic cookie-cutter routines. Personalized strength coaching, barbell technique mastering, and sustainable athletic conditioning designed for busy Bengaluru professionals.
+        </p>
+        <div class="fitness-cta-group">
+          <a [href]="generateTrialUrl('Intro Trial Session')" target="_blank" rel="noopener noreferrer" class="btn btn-primary fitness-btn-primary">
+            Claim Free 1-on-1 Trial Session
+          </a>
+          <a href="#packages" class="btn btn-secondary">
+            View Training Packages
+          </a>
+        </div>
+        <div class="fitness-credentials-strip">
+          <div class="cred-item">
+            <span class="cred-num">CSCS</span>
+            <span class="cred-name">Certified Strength Coach</span>
+          </div>
+          <div class="cred-item">
+            <span class="cred-num">10+ Yrs</span>
+            <span class="cred-name">Lifting Experience</span>
+          </div>
+          <div class="cred-item">
+            <span class="cred-num">Indiranagar</span>
+            <span class="cred-name">Private Studio Floor</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trainer Visual Mock -->
+      <div class="fitness-visual-col">
+        <div class="trainer-card-mock">
+          <div class="trainer-avatar">
+            <span>VR</span>
+          </div>
+          <h2 class="trainer-name">Coach Vikram Rao</h2>
+          <p class="trainer-specialty">Strength & Conditioning Specialist</p>
+          <div class="trainer-manifesto">
+            &ldquo;We don't chase exhaustion for the sake of sweating. We train with progressive overload, intelligent recovery, and clean form so you get measurably stronger each week.&rdquo;
+          </div>
+          <div class="trainer-highlights">
+            <span class="highlight-tag">Barbell Biomechanics</span>
+            <span class="highlight-tag">Kettlebell Athletics</span>
+            <span class="highlight-tag">Spine & Joint Health</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Training Packages & Tiers -->
+  <section id="packages" class="fitness-packages-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Coaching Options</span>
+        <h2 class="section-title">Transparent Training Packages</h2>
+        <p class="section-subtitle">
+          Whether you want small-group camaraderie or intensive 1-on-1 focus, choose the package that fits your schedule.
+        </p>
+      </div>
+
+      <div class="packages-grid">
+        <article class="tier-card" *ngFor="let tier of trainingPackages" [class.popular-tier]="tier.recommended">
+          <div class="popular-ribbon" *ngIf="tier.recommended">Most Popular</div>
+          <div class="tier-header">
+            <h3 class="tier-name">{{ tier.name }}</h3>
+            <span class="tier-cadence">{{ tier.cadence }}</span>
+            <div class="tier-price">{{ tier.price }}</div>
+          </div>
+          <p class="tier-desc">{{ tier.description }}</p>
+          <ul class="tier-features">
+            <li *ngFor="let feat of tier.features">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>{{ feat }}</span>
+            </li>
+          </ul>
+          <div class="tier-action">
+            <a [href]="generateTrialUrl(tier.name)" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-block">
+              Enquire for {{ tier.name }}
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schedule & Slot Availability -->
+  <section class="fitness-schedule-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Training Timings</span>
+        <h2 class="section-title">Daily Session Timetable</h2>
+        <p class="section-subtitle">
+          Early morning and evening time slots suited for tech workers and founders in Indiranagar and Koramangala.
+        </p>
+      </div>
+
+      <div class="schedule-table-wrap">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th scope="col">Time Slot</th>
+              <th scope="col">Session Format</th>
+              <th scope="col">Experience Level</th>
+              <th scope="col">Intensity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of schedule">
+              <td class="slot-time">{{ item.time }}</td>
+              <td class="slot-session"><strong>{{ item.session }}</strong></td>
+              <td class="slot-level">{{ item.level }}</td>
+              <td><span class="intensity-tag">{{ item.intensity }}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trial Consultation CTA Strip -->
+  <section class="fitness-cta-strip">
+    <div class="container">
+      <div class="fitness-cta-card">
+        <h2 class="cta-headline">Try a 45-Minute Movement & Form Assessment</h2>
+        <p class="cta-sub">
+          Test drive our coaching. We will analyze your squat, deadlift, and shoulder mobility, and outline a realistic 8-week roadmap with zero obligation.
+        </p>
+        <a [href]="generateTrialUrl('Free Movement Assessment')" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
+          <span>Book Free Assessment via WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>

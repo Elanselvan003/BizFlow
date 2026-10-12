@@ -1,0 +1,617 @@
+<main class="home-page">
+  <!-- =========================================================================
+       HERO SECTION
+       ========================================================================= -->
+  <section id="hero" class="hero-section">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <!-- Availability Badge -->
+        <div class="availability-chip" *ngIf="config.hero.availabilityBadge">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span>{{ config.hero.availabilityBadge }}</span>
+          <span class="location-tag">&bull; Bengaluru, India</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="hero-headline">
+          {{ config.hero.headline }}
+        </h1>
+
+        <!-- Supporting Text -->
+        <p class="hero-supporting-text">
+          {{ config.hero.supportingText }}
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="hero-cta-group">
+          <button type="button" class="btn btn-primary" (click)="scrollToSection('contact')">
+            {{ config.hero.primaryCtaText }}
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="scrollToSection('projects')">
+            {{ config.hero.secondaryCtaText }}
+          </button>
+        </div>
+
+        <!-- Key Trust Badges -->
+        <div class="hero-trust-bar">
+          <div class="trust-badge-item">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+            <span>Mobile-First Speed</span>
+          </div>
+          <div class="trust-badge-item">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+            <span>WhatsApp & Call Ready</span>
+          </div>
+          <div class="trust-badge-item">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+            <span>Direct Developer Support</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Visual Card Preview -->
+      <div class="hero-visual-card">
+        <div class="browser-frame">
+          <div class="browser-bar">
+            <span class="browser-dot dot-red"></span>
+            <span class="browser-dot dot-yellow"></span>
+            <span class="browser-dot dot-green"></span>
+            <span class="browser-url">https://yourbusiness.in</span>
+          </div>
+          <div class="browser-body">
+            <div class="mock-hero-line"></div>
+            <div class="mock-hero-subline"></div>
+            <div class="mock-cards-row">
+              <div class="mock-box">
+                <span class="mock-icon-dot"></span>
+                <span class="mock-text-short"></span>
+              </div>
+              <div class="mock-box">
+                <span class="mock-icon-dot"></span>
+                <span class="mock-text-short"></span>
+              </div>
+            </div>
+            <div class="mock-cta-row">
+              <div class="mock-btn-whatsapp">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="14" height="14" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <span>Instant WhatsApp Enquiry</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SERVICES SECTION
+       ========================================================================= -->
+  <section id="services" class="section services-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Web Development Services</span>
+        <h2 class="section-title">What I Build For Your Business</h2>
+        <p class="section-subtitle">
+          Clean, modern web engineering without bloated builders. Fast page speeds, clear messaging, and mobile-friendly enquiry channels for local customers in Bengaluru.
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <article class="service-card" *ngFor="let service of config.services">
+          <div class="service-card-top">
+            <div class="service-icon-box">
+              <!-- Business Icon -->
+              <svg *ngIf="service.icon === 'business'" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+              <!-- Landing Page Icon -->
+              <svg *ngIf="service.icon === 'landing'" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <!-- Redesign Icon -->
+              <svg *ngIf="service.icon === 'refresh'" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <!-- Maintenance Icon -->
+              <svg *ngIf="service.icon === 'maintenance'" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <span class="badge badge-blue" *ngIf="service.badge">{{ service.badge }}</span>
+          </div>
+
+          <h3 class="service-title">{{ service.title }}</h3>
+          <p class="service-description">{{ service.shortDescription }}</p>
+
+          <ul class="service-bullets">
+            <li *ngFor="let point of service.detailedPoints">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>{{ point }}</span>
+            </li>
+          </ul>
+
+          <div class="service-card-action">
+            <button type="button" class="btn btn-outline btn-sm btn-block" (click)="selectServiceAndScroll(service.id)">
+              Enquire About {{ service.title }}
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       DEMO PROJECTS SECTION
+       ========================================================================= -->
+  <section id="projects" class="section projects-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Interactive Portfolio Work</span>
+        <h2 class="section-title">Functional Concept Websites</h2>
+        <p class="section-subtitle">
+          These are concept projects created for demonstration purposes so you can experience page structure, mobile usability, and WhatsApp contact flows in action.
+        </p>
+      </div>
+
+      <div class="projects-grid">
+        <article class="project-card" *ngFor="let project of config.demoProjects">
+          <!-- Card Header & Badge -->
+          <div class="project-card-header">
+            <span class="badge badge-demo">{{ project.badge }}</span>
+            <span class="project-category">{{ project.category }}</span>
+          </div>
+
+          <!-- Project Title & Description -->
+          <h3 class="project-title">{{ project.title }}</h3>
+          <p class="project-tagline">{{ project.tagline }}</p>
+          <p class="project-description">{{ project.description }}</p>
+
+          <!-- Key Features List -->
+          <div class="project-features-block">
+            <h4 class="features-label">Key Highlights Demonstrated:</h4>
+            <ul class="project-features-list">
+              <li *ngFor="let feat of project.features">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{{ feat }}</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Project Card Action -->
+          <div class="project-action-row">
+            <a [routerLink]="project.previewRoute" class="btn btn-primary btn-block">
+              {{ project.ctaLabel }}
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       PRICING PACKAGES SECTION
+       ========================================================================= -->
+  <section id="pricing" class="section pricing-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Transparent Indicative Estimates</span>
+        <h2 class="section-title">Website Packages & Pricing</h2>
+        <p class="section-subtitle">
+          Affordable, transparent starter pricing in INR for local small businesses. Simple scopes with zero hidden surprises.
+        </p>
+      </div>
+
+      <div class="pricing-grid">
+        <article class="pricing-card" *ngFor="let pkg of config.pricing.packages" [class.popular-card]="pkg.popular">
+          <div class="popular-ribbon" *ngIf="pkg.popular">Recommended</div>
+
+          <div class="pricing-header">
+            <h3 class="pkg-name">{{ pkg.name }}</h3>
+            <div class="price-display">
+              <span class="price-val">{{ pkg.priceDisplay }}</span>
+              <span class="price-cadence" *ngIf="pkg.cadence">{{ pkg.cadence }}</span>
+            </div>
+            <p class="pkg-ideal">{{ pkg.idealFor }}</p>
+          </div>
+
+          <div class="pricing-revisions">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <span>{{ pkg.revisionRounds }}</span>
+          </div>
+
+          <ul class="deliverables-list">
+            <li *ngFor="let item of pkg.deliverables">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>{{ item }}</span>
+            </li>
+          </ul>
+
+          <div class="pricing-card-footer">
+            <button 
+              type="button" 
+              class="btn btn-block" 
+              [class.btn-primary]="pkg.popular" 
+              [class.btn-secondary]="!pkg.popular"
+              (click)="selectPackageAndScroll(pkg.id)"
+            >
+              {{ pkg.ctaText }}
+            </button>
+          </div>
+        </article>
+      </div>
+
+      <!-- Pricing Disclaimer Note -->
+      <aside class="pricing-disclaimer-box" aria-label="Pricing terms and conditions">
+        <div class="disclaimer-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <p class="disclaimer-text">
+          {{ config.pricing.disclaimer }}
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       ABOUT ME SECTION
+       ========================================================================= -->
+  <section id="about" class="section about-section">
+    <div class="container">
+      <div class="about-grid">
+        <!-- Developer Profile Card -->
+        <div class="about-profile-col">
+          <div class="profile-card">
+            <div class="profile-avatar-circle">
+              <span>{{ avatarInitials }}</span>
+            </div>
+            <h2 class="profile-name">{{ config.developer.name }}</h2>
+            <p class="profile-title">{{ config.developer.title }}</p>
+            <div class="profile-location-chip">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>{{ config.developer.location }}</span>
+            </div>
+            <p class="profile-locality">{{ config.developer.cityArea }}</p>
+
+            <div class="profile-actions">
+              <a [href]="'https://wa.me/' + config.developer.contact.whatsappNumber" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-sm btn-block">
+                <span>Chat on WhatsApp</span>
+              </a>
+              <a [href]="'mailto:' + config.developer.contact.email" class="btn btn-secondary btn-sm btn-block">
+                <span>Send Email</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bio & Technical Background -->
+        <div class="about-content-col">
+          <span class="section-label">About The Developer</span>
+          <h2 class="section-title">Professional Frontend & Web Engineering</h2>
+          <p class="experience-headline">
+            {{ config.developer.experienceHeadline }}
+          </p>
+
+          <div class="bio-text">
+            <p *ngFor="let p of config.developer.bioParagraphs">
+              {{ p }}
+            </p>
+          </div>
+
+          <!-- Core Principles -->
+          <div class="principles-grid">
+            <div class="principle-card">
+              <h3 class="principle-title">No Heavy Page Builders</h3>
+              <p class="principle-desc">Clean, lightweight code ensures your website loads under 2 seconds on mobile data networks.</p>
+            </div>
+            <div class="principle-card">
+              <h3 class="principle-title">Mobile-First Focus</h3>
+              <p class="principle-desc">Your customer is on a smartphone. Buttons, forms, and WhatsApp actions are placed within natural thumb reach.</p>
+            </div>
+            <div class="principle-card">
+              <h3 class="principle-title">Direct Developer Contact</h3>
+              <p class="principle-desc">No agency bureaucracy or junior handoffs. You work directly with me from initial wireframe to launch.</p>
+            </div>
+          </div>
+
+          <!-- Technical Skills -->
+          <div class="skills-block">
+            <h3 class="skills-heading">Technical Stack & Capabilities:</h3>
+            <div class="skills-categories" *ngFor="let cat of config.developer.technicalSkills">
+              <span class="skill-cat-label">{{ cat.category }}:</span>
+              <div class="skill-tags">
+                <span class="skill-tag" *ngFor="let skill of cat.skills">{{ skill }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       CONTACT SECTION
+       ========================================================================= -->
+  <section id="contact" class="section contact-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Get in Touch</span>
+        <h2 class="section-title">Let's Discuss Your Website</h2>
+        <p class="section-subtitle">
+          Have a small business, practice, or clinic in Bengaluru? Share your project details below or message me directly on WhatsApp.
+        </p>
+      </div>
+
+      <div class="contact-grid">
+        <!-- Contact Enquiry Form -->
+        <div class="contact-form-container">
+          <!-- Submission Confirmation Alert -->
+          <div class="submission-alert" *ngIf="submissionSuccessMessage" role="status" aria-live="polite">
+            <div class="alert-icon">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="22" height="22" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <div class="alert-body">
+              <p class="alert-text">{{ submissionSuccessMessage }}</p>
+              <div class="alert-actions" *ngIf="gmailWebComposeUrl && lastActionUsed === 'email'">
+                <button type="button" class="btn btn-outline btn-sm alert-gmail-btn" (click)="openGmailWeb()">
+                  Open in Gmail Web &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <form #contactForm="ngForm" class="enquiry-form" novalidate (ngSubmit)="$event.preventDefault()">
+            <!-- Name Field -->
+            <div class="form-group" [class.has-error]="formSubmitted && nameInput.invalid">
+              <label for="client-name" class="form-label">
+                Your Full Name <span class="required-mark" aria-hidden="true">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="client-name" 
+                name="name"
+                class="form-input"
+                [(ngModel)]="formData.name" 
+                #nameInput="ngModel"
+                required
+                minlength="2"
+                autocomplete="name"
+                placeholder="e.g. Ramesh Chandra"
+                [attr.aria-invalid]="formSubmitted && nameInput.invalid"
+                aria-describedby="name-error"
+              >
+              <p id="name-error" class="error-msg" *ngIf="formSubmitted && nameInput.invalid">
+                Please enter your name (minimum 2 characters).
+              </p>
+            </div>
+
+            <!-- Business Name Field -->
+            <div class="form-group">
+              <label for="business-name" class="form-label">
+                Business Name or Profession <span class="optional-label">(Optional)</span>
+              </label>
+              <input 
+                type="text" 
+                id="business-name" 
+                name="businessName"
+                class="form-input"
+                [(ngModel)]="formData.businessName" 
+                placeholder="e.g. Blossom Dental Clinic / Freelance Consultant"
+              >
+            </div>
+
+            <!-- Email or Phone Field -->
+            <div class="form-group" [class.has-error]="formSubmitted && contactInput.invalid">
+              <label for="contact-method" class="form-label">
+                Email Address or Phone Number <span class="required-mark" aria-hidden="true">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="contact-method" 
+                name="contactMethod"
+                class="form-input"
+                [(ngModel)]="formData.contactMethod" 
+                #contactInput="ngModel"
+                required
+                minlength="6"
+                placeholder="e.g. ramesh@example.com or +91 98765 00000"
+                [attr.aria-invalid]="formSubmitted && contactInput.invalid"
+                aria-describedby="contact-error"
+              >
+              <p id="contact-error" class="error-msg" *ngIf="formSubmitted && contactInput.invalid">
+                Please provide an email address or mobile number so I can respond to your enquiry.
+              </p>
+            </div>
+
+            <!-- Service Dropdown -->
+            <div class="form-group">
+              <label for="selected-service" class="form-label">
+                Service Required
+              </label>
+              <select 
+                id="selected-service" 
+                name="selectedService"
+                class="form-select"
+                [(ngModel)]="formData.selectedService"
+              >
+                <option *ngFor="let s of config.services" [value]="s.id">
+                  {{ s.title }}
+                </option>
+                <option value="custom">Other / Custom Requirement</option>
+              </select>
+            </div>
+
+            <!-- Package Preference Dropdown -->
+            <div class="form-group">
+              <label for="selected-package" class="form-label">
+                Interested Package
+              </label>
+              <select 
+                id="selected-package" 
+                name="selectedPackage"
+                class="form-select"
+                [(ngModel)]="formData.selectedPackage"
+              >
+                <option *ngFor="let p of config.pricing.packages" [value]="p.id">
+                  {{ p.name }} — {{ p.priceDisplay }}
+                </option>
+                <option value="custom-quote">Need a Custom Quote</option>
+              </select>
+            </div>
+
+            <!-- Message Field -->
+            <div class="form-group" [class.has-error]="formSubmitted && messageInput.invalid">
+              <label for="project-message" class="form-label">
+                Project Details or Questions <span class="required-mark" aria-hidden="true">*</span>
+              </label>
+              <textarea 
+                id="project-message" 
+                name="message"
+                class="form-textarea"
+                rows="4"
+                [(ngModel)]="formData.message" 
+                #messageInput="ngModel"
+                required
+                minlength="10"
+                placeholder="Briefly describe what your business does and what kind of website you have in mind..."
+                [attr.aria-invalid]="formSubmitted && messageInput.invalid"
+                aria-describedby="message-error"
+              ></textarea>
+              <p id="message-error" class="error-msg" *ngIf="formSubmitted && messageInput.invalid">
+                Please share a brief note about your website requirement (minimum 10 characters).
+              </p>
+            </div>
+
+            <!-- Action Buttons: WhatsApp & Direct Gmail Delivery -->
+            <div class="form-submit-actions">
+              <button 
+                type="button" 
+                class="btn btn-whatsapp btn-submit"
+                (click)="submitViaWhatsApp(contactForm)"
+              >
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <span>Send to WhatsApp</span>
+              </button>
+
+              <button 
+                type="button" 
+                class="btn btn-primary btn-submit"
+                [disabled]="isSubmittingEmail"
+                (click)="submitViaEmail(contactForm)"
+              >
+                <svg *ngIf="!isSubmittingEmail" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <span *ngIf="isSubmittingEmail">Sending to Inbox...</span>
+                <span *ngIf="!isSubmittingEmail">Send to Gmail Inbox</span>
+              </button>
+            </div>
+
+            <p class="form-disclaimer">
+              Direct Delivery: "Send to WhatsApp" delivers your enquiry directly to {{ config.developer.contact.whatsappDisplay }}. "Send to Gmail Inbox" dispatches your enquiry directly to {{ config.developer.contact.email }}.
+            </p>
+          </form>
+        </div>
+
+        <!-- Direct Contact Information Cards -->
+        <div class="direct-contact-sidebar">
+          <div class="contact-info-card">
+            <h3 class="sidebar-title">Direct Contact Channels</h3>
+            <p class="sidebar-sub">
+              Prefer quick messaging? Reach out directly without filling out the form.
+            </p>
+
+            <div class="channel-list">
+              <!-- WhatsApp Card -->
+              <div class="channel-card">
+                <div class="channel-icon-wrap icon-green">
+                  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="22" height="22" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                </div>
+                <div class="channel-details">
+                  <span class="channel-label">WhatsApp Direct</span>
+                  <a [href]="'https://wa.me/' + config.developer.contact.whatsappNumber" target="_blank" rel="noopener noreferrer" class="channel-link">
+                    {{ config.developer.contact.whatsappDisplay }}
+                  </a>
+                  <span class="channel-sub">Typically responds within 2 hours</span>
+                </div>
+              </div>
+
+              <!-- Email Card -->
+              <div class="channel-card">
+                <div class="channel-icon-wrap icon-blue">
+                  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="22" height="22" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div class="channel-details">
+                  <span class="channel-label">Email Address</span>
+                  <a [href]="'mailto:' + config.developer.contact.email" class="channel-link">
+                    {{ config.developer.contact.email }}
+                  </a>
+                  <span class="channel-sub">Best for detailed RFP or briefs</span>
+                </div>
+              </div>
+
+              <!-- Location / Hours -->
+              <div class="channel-card">
+                <div class="channel-icon-wrap icon-slate">
+                  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="22" height="22" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div class="channel-details">
+                  <span class="channel-label">Working Hours & Location</span>
+                  <span class="channel-text">{{ config.developer.contact.officeHours }}</span>
+                  <span class="channel-sub">{{ config.developer.location }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Promise Box -->
+            <div class="guarantee-box">
+              <h4 class="guarantee-title">What to Expect When You Reach Out:</h4>
+              <ul class="guarantee-list">
+                <li>Prompt, honest response about feasibility and timeline.</li>
+                <li>Clear breakdown of deliverables before any commitment.</li>
+                <li>Direct communication with the developer doing the work.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

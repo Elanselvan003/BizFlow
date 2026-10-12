@@ -1,0 +1,186 @@
+<!-- Demo Project Top Notification Bar -->
+<aside class="demo-banner" aria-label="Demo notice">
+  <div class="container demo-banner-content">
+    <div class="demo-badge-wrap">
+      <span class="badge badge-demo">Demo Project</span>
+      <span class="demo-banner-text">
+        This is a concept salon website designed for portfolio demonstration by <strong>{{ config.developer.name }}</strong>.
+      </span>
+    </div>
+    <a routerLink="/" fragment="projects" class="demo-back-btn">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      <span>Back to Portfolio</span>
+    </a>
+  </div>
+</aside>
+
+<!-- Salon Brand Header -->
+<header class="salon-header">
+  <div class="container salon-nav">
+    <div class="salon-brand">
+      <span class="salon-logo">LUXE</span>
+      <span class="salon-tagline">Cut &bull; Colour &bull; Rituals</span>
+    </div>
+    <a [href]="generateAppointmentUrl()" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-sm">
+      <span>Book on WhatsApp</span>
+    </a>
+  </div>
+</header>
+
+<main class="salon-main">
+  <!-- Hero Section -->
+  <section class="salon-hero">
+    <div class="container salon-hero-grid">
+      <div class="salon-hero-content">
+        <span class="salon-pill">Artisan Hair Studio &bull; Koramangala 4th Block</span>
+        <h1 class="salon-headline">Elevated Hair & Beauty Experiences Tailored to You</h1>
+        <p class="salon-intro">
+          A calm, contemporary beauty studio offering precision haircuts, bespoke balayage colour, 
+          and revitalizing botanical scalp therapies. Experience relaxed luxury without pretense.
+        </p>
+        <div class="salon-cta-group">
+          <a [href]="generateAppointmentUrl('Haircut & Styling')" target="_blank" rel="noopener noreferrer" class="btn btn-primary salon-btn-primary">
+            Reserve An Appointment
+          </a>
+          <a href="#services-menu" class="btn btn-secondary">
+            View Service Menu
+          </a>
+        </div>
+        <div class="salon-info-strip">
+          <div class="info-pill">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Tue - Sun: 10:00 AM - 8:30 PM</span>
+          </div>
+          <div class="info-pill">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            </svg>
+            <span>80 Feet Rd, Koramangala, Bengaluru</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Salon Visual Card -->
+      <div class="salon-visual-container">
+        <div class="salon-card-mock">
+          <div class="mock-badge">Salon Experience</div>
+          <h2 class="mock-title">What Makes Luxe Different</h2>
+          <ul class="mock-perks">
+            <li>
+              <div class="perk-bullet">01</div>
+              <div>
+                <strong>Zero-Rush Consultations</strong>
+                <p>Every appointment begins with 10 minutes dedicated exclusively to understanding your face shape, lifestyle, and hair texture.</p>
+              </div>
+            </li>
+            <li>
+              <div class="perk-bullet">02</div>
+              <div>
+                <strong>Cruelty-Free, Low-Chemical Products</strong>
+                <p>We work exclusively with certified sulfate-free, ammonia-free, and vegan hair care formulations.</p>
+              </div>
+            </li>
+            <li>
+              <div class="perk-bullet">03</div>
+              <div>
+                <strong>Transparent Pricing</strong>
+                <p>No sudden add-ons or hidden charges at the billing desk. Everything is confirmed before we begin.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Menu & Price List -->
+  <section id="services-menu" class="salon-services-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Transparent Price Menu</span>
+        <h2 class="section-title">Our Services & Pricing</h2>
+        <p class="section-subtitle">
+          Sample indicative price list demonstrating how small businesses can present clear pricing to online visitors.
+        </p>
+      </div>
+
+      <div class="menu-categories-grid">
+        <div class="category-block" *ngFor="let cat of serviceMenu">
+          <h3 class="category-title">{{ cat.category }}</h3>
+          <div class="service-items-list">
+            <div class="service-item" *ngFor="let item of cat.items">
+              <div class="service-item-main">
+                <div class="service-item-header">
+                  <span class="service-name">{{ item.name }}</span>
+                  <span class="service-dots" aria-hidden="true"></span>
+                  <span class="service-price">{{ item.price }}</span>
+                </div>
+                <p class="service-desc">{{ item.description }}</p>
+                <div class="service-meta">
+                  <span class="service-duration">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="14" height="14" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {{ item.duration }}
+                  </span>
+                  <a [href]="generateAppointmentUrl(item.name)" target="_blank" rel="noopener noreferrer" class="item-book-link">
+                    Book &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Studio Gallery Mock -->
+  <section class="salon-gallery-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Studio Atmosphere</span>
+        <h2 class="section-title">A Space Designed for Rest</h2>
+        <p class="section-subtitle">
+          Natural light, minimalist interior styling, and acoustic calmness in the heart of Bengaluru.
+        </p>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="gallery-card card-1">
+          <div class="gallery-tag">Interior Styling</div>
+          <div class="gallery-info">Scandinavian Minimalist Chairs & Warm Walnut Stations</div>
+        </div>
+        <div class="gallery-card card-2">
+          <div class="gallery-tag">Colour Bar</div>
+          <div class="gallery-info">Custom Balayage & Glaze Mixing Station</div>
+        </div>
+        <div class="gallery-card card-3">
+          <div class="gallery-tag">Scalp Ritual Room</div>
+          <div class="gallery-info">Quiet Dimmed Recliner Area for Botanical Spas</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Appointment Booking CTA Strip -->
+  <section class="salon-booking-strip">
+    <div class="container">
+      <div class="booking-strip-card">
+        <div class="booking-strip-text">
+          <h2 class="strip-title">Ready for Your Next Look?</h2>
+          <p class="strip-desc">
+            WhatsApp us your preferred date and service. Our front desk responds within 30 minutes during studio hours.
+          </p>
+        </div>
+        <a [href]="generateAppointmentUrl()" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
+          <span>Book Appointment on WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>

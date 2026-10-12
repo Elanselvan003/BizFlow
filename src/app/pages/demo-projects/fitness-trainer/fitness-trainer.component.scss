@@ -1,0 +1,445 @@
+// Demo Top Bar
+.demo-banner {
+  background-color: #0f172a;
+  color: #f8fafc;
+  padding-block: 0.625rem;
+  font-size: 0.8125rem;
+}
+
+.demo-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.demo-badge-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.demo-banner-text {
+  color: #cbd5e1;
+}
+
+.demo-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: #93c5fd;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.demo-back-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+// Fitness Header
+.fitness-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  padding-block: 1rem;
+}
+
+.fitness-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fitness-brand {
+  display: flex;
+  flex-direction: column;
+}
+
+.fitness-logo {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #1e3a8a;
+  line-height: 1;
+}
+
+.fitness-tag {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #2563eb;
+  letter-spacing: 0.1em;
+  margin-top: 0.2rem;
+}
+
+// Hero Section
+.fitness-hero {
+  padding-block: 4.5rem;
+  background: linear-gradient(180deg, #eff6ff 0%, #ffffff 100%);
+}
+
+.fitness-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .fitness-hero-grid {
+    grid-template-columns: 1.2fr 0.8fr;
+  }
+}
+
+.fitness-pill {
+  display: inline-block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #1d4ed8;
+  background-color: #dbeafe;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.fitness-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: #0f172a;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.fitness-intro {
+  font-size: 1.125rem;
+  line-height: 1.65;
+  color: #475569;
+  margin-bottom: 2rem;
+}
+
+.fitness-cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.fitness-btn-primary {
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+.fitness-btn-primary:hover {
+  background-color: #1e40af;
+}
+
+.fitness-credentials-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #bfdbfe;
+}
+
+@media (max-width: 480px) {
+  .fitness-credentials-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cred-num {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: #1e3a8a;
+}
+
+.cred-name {
+  display: block;
+  font-size: 0.8125rem;
+  color: #64748b;
+}
+
+// Trainer Card Mock
+.fitness-visual-col {
+  display: flex;
+  justify-content: center;
+}
+
+.trainer-card-mock {
+  background-color: #ffffff;
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 2rem;
+  box-shadow: 0 10px 25px -5px rgba(29, 78, 216, 0.08);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.trainer-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.3);
+}
+
+.trainer-name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.25rem;
+}
+
+.trainer-specialty {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 1.25rem;
+}
+
+.trainer-manifesto {
+  font-style: italic;
+  font-size: 0.9375rem;
+  color: #334155;
+  background-color: #f8fafc;
+  padding: 1.125rem;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid #2563eb;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.trainer-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.highlight-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1e40af;
+  background-color: #eff6ff;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-full);
+}
+
+// Packages Section
+.fitness-packages-section {
+  padding-block: 4.5rem;
+  background-color: #ffffff;
+}
+
+.packages-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 900px) {
+  .packages-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.tier-card {
+  position: relative;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.tier-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.tier-card.popular-tier {
+  background-color: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 4px 20px -2px rgba(37, 99, 235, 0.12);
+}
+
+.popular-ribbon {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.85rem;
+  border-radius: var(--radius-full);
+}
+
+.tier-header {
+  margin-bottom: 1rem;
+}
+
+.tier-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.25rem;
+}
+
+.tier-cadence {
+  font-size: 0.8125rem;
+  color: #64748b;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.tier-price {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.tier-desc {
+  font-size: 0.9375rem;
+  color: #475569;
+  line-height: 1.55;
+  margin-bottom: 1.5rem;
+}
+
+.tier-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  flex-grow: 1;
+}
+
+.tier-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.tier-features svg {
+  color: #2563eb;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.tier-action {
+  margin-top: auto;
+}
+
+// Schedule Section
+.fitness-schedule-section {
+  padding-block: 4.5rem;
+  background-color: #f8fafc;
+}
+
+.schedule-table-wrap {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9375rem;
+  min-width: 600px;
+}
+
+.schedule-table th {
+  background-color: #f1f5f9;
+  padding: 1rem 1.25rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.schedule-table td {
+  padding: 1.125rem 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+}
+
+.slot-time {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.intensity-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-radius: var(--radius-sm);
+}
+
+// CTA Strip
+.fitness-cta-strip {
+  padding-block: 4rem;
+  background-color: #ffffff;
+}
+
+.fitness-cta-card {
+  background-color: #1e3a8a;
+  color: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 3rem 2.5rem;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cta-headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.cta-sub {
+  font-size: 1.0625rem;
+  color: #bfdbfe;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 640px;
+  margin-inline: auto;
+}

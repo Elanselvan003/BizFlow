@@ -1,0 +1,123 @@
+<header class="site-header" [class.scrolled]="isScrolled()">
+  <div class="container header-container">
+    <!-- Brand Logo -->
+    <a routerLink="/" class="brand-link" (click)="closeMobileMenu()">
+      <div class="brand-icon-badge" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
+          <rect width="32" height="32" rx="8" fill="url(#headerSwGrad)"/>
+          <defs>
+            <linearGradient id="headerSwGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#1d4ed8" />
+              <stop offset="100%" stop-color="#0f172a" />
+            </linearGradient>
+          </defs>
+          <path d="M10 11 C7 11 7 16 11 16.5 C15 17 15 21.5 11 21.5 C8 21.5 8 19.5 8 19.5" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M16 12 L18.5 20.5 L21.5 14 L24.5 20.5 L27 12" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="brand-text-wrap">
+        <span class="brand-name">{{ config.brand.logoText }}</span>
+        <span class="brand-divider" aria-hidden="true">|</span>
+        <span class="brand-title">{{ config.brand.logoSubtext }}</span>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav" aria-label="Main Navigation">
+      <ul class="nav-list">
+        <li>
+          <a routerLink="/" fragment="hero" class="nav-link" (click)="navigateToSection('hero')">Home</a>
+        </li>
+        <li>
+          <a routerLink="/" fragment="services" class="nav-link" (click)="navigateToSection('services')">Services</a>
+        </li>
+        <li>
+          <a routerLink="/" fragment="projects" class="nav-link" (click)="navigateToSection('projects')">Projects</a>
+        </li>
+        <li>
+          <a routerLink="/" fragment="pricing" class="nav-link" (click)="navigateToSection('pricing')">Pricing</a>
+        </li>
+        <li>
+          <a routerLink="/" fragment="about" class="nav-link" (click)="navigateToSection('about')">About</a>
+        </li>
+        <li>
+          <a routerLink="/" fragment="contact" class="nav-link" (click)="navigateToSection('contact')">Contact</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <a routerLink="/" fragment="contact" (click)="navigateToSection('contact')" class="btn btn-primary btn-sm header-cta">
+        Let's Talk
+      </a>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button 
+        type="button" 
+        class="mobile-menu-toggle"
+        [attr.aria-expanded]="isMobileMenuOpen()"
+        aria-controls="mobile-nav-drawer"
+        aria-label="Toggle navigation menu"
+        (click)="toggleMobileMenu()"
+      >
+        <span class="hamburger-bar" [class.open]="isMobileMenuOpen()"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Navigation -->
+  <div 
+    id="mobile-nav-drawer"
+    class="mobile-nav-drawer"
+    [class.open]="isMobileMenuOpen()"
+    [attr.aria-hidden]="!isMobileMenuOpen()"
+  >
+    <div class="container mobile-nav-content">
+      <nav aria-label="Mobile Navigation">
+        <ul class="mobile-nav-list">
+          <li>
+            <a routerLink="/" fragment="hero" class="mobile-nav-link" (click)="navigateToSection('hero')">
+              Home
+            </a>
+          </li>
+          <li>
+            <a routerLink="/" fragment="services" class="mobile-nav-link" (click)="navigateToSection('services')">
+              Services
+            </a>
+          </li>
+          <li>
+            <a routerLink="/" fragment="projects" class="mobile-nav-link" (click)="navigateToSection('projects')">
+              Demo Projects
+            </a>
+          </li>
+          <li>
+            <a routerLink="/" fragment="pricing" class="mobile-nav-link" (click)="navigateToSection('pricing')">
+              Pricing Packages
+            </a>
+          </li>
+          <li>
+            <a routerLink="/" fragment="about" class="mobile-nav-link" (click)="navigateToSection('about')">
+              About Developer
+            </a>
+          </li>
+          <li>
+            <a routerLink="/" fragment="contact" class="mobile-nav-link" (click)="navigateToSection('contact')">
+              Contact & Enquiries
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="mobile-nav-footer">
+        <a routerLink="/" fragment="contact" (click)="navigateToSection('contact')" class="btn btn-primary btn-block">
+          Let's Talk About Your Website
+        </a>
+        <div class="mobile-availability">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span>{{ config.hero.availabilityBadge }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,182 @@
+<!-- Demo Project Top Notification Bar -->
+<aside class="demo-banner" aria-label="Demo notice">
+  <div class="container demo-banner-content">
+    <div class="demo-badge-wrap">
+      <span class="badge badge-demo">Concept Design</span>
+      <span class="demo-banner-text">
+        This is a functional concept showcase created for portfolio demonstration by <strong>{{ config.developer.name }}</strong>.
+      </span>
+    </div>
+    <a routerLink="/" fragment="projects" class="demo-back-btn">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      <span>Back to Portfolio</span>
+    </a>
+  </div>
+</aside>
+
+<!-- Lifestyle Coach Concept Header -->
+<header class="coach-header">
+  <div class="container coach-nav">
+    <div class="coach-brand">
+      <div class="coach-logo-mark">A</div>
+      <div class="coach-brand-text">
+        <span class="coach-name">Aura Wellness</span>
+        <span class="coach-sub">Lifestyle & Mindset Coaching</span>
+      </div>
+    </div>
+    <a [href]="generateWhatsAppUrl()" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-sm">
+      <span>Enquire on WhatsApp</span>
+    </a>
+  </div>
+</header>
+
+<main class="coach-main">
+  <!-- Hero Section -->
+  <section class="coach-hero">
+    <div class="container coach-hero-grid">
+      <div class="coach-hero-text">
+        <span class="coach-pill">Private 1-on-1 Coaching &bull; Bengaluru & Online</span>
+        <h1 class="coach-headline">Transform Your Habits. Reclaim Your Balance and Energy.</h1>
+        <p class="coach-intro">
+          Empathetic, evidence-backed lifestyle coaching for busy professionals and entrepreneurs. 
+          Build sustainable daily rituals, manage workplace stress, and align your everyday actions with who you truly want to be.
+        </p>
+        <div class="coach-cta-group">
+          <a [href]="generateWhatsAppUrl('Introductory Discovery Call')" target="_blank" rel="noopener noreferrer" class="btn btn-primary coach-btn-primary">
+            Book 20-Min Discovery Call
+          </a>
+          <a href="#programmes" class="btn btn-secondary">
+            Explore Programmes
+          </a>
+        </div>
+        <div class="coach-stats">
+          <div class="stat-item">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Confidential & 1-on-1</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">Hybrid</span>
+            <span class="stat-label">Indiranagar & Online</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">Direct</span>
+            <span class="stat-label">WhatsApp Accountability</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="coach-visual-card">
+        <div class="coach-profile-mock">
+          <div class="avatar-circle">
+            <span>AW</span>
+          </div>
+          <h2 class="profile-name">Ananya Sen, ACC</h2>
+          <p class="profile-role">Certified Lifestyle & Wellness Strategist</p>
+          <div class="profile-quote">
+            &ldquo;Sustainable transformation doesn't come from rigid perfection. It comes from realistic micro-habits that fit your actual daily life.&rdquo;
+          </div>
+          <div class="profile-topics">
+            <span class="topic-tag">Mindful Routines</span>
+            <span class="topic-tag">Sleep Hygiene</span>
+            <span class="topic-tag">Stress Boundaries</span>
+            <span class="topic-tag">Workplace Vitality</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Methodology Section -->
+  <section class="coach-philosophy">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Coaching Methodology</span>
+        <h2 class="section-title">How We Build Lasting Change Together</h2>
+        <p class="section-subtitle">
+          No quick gimmicks or extreme diets. We systematically diagnose friction points and build intuitive habits step-by-step.
+        </p>
+      </div>
+
+      <div class="methodology-grid">
+        <div class="method-card">
+          <div class="method-number">01</div>
+          <h3 class="method-title">Audit & Clarity</h3>
+          <p class="method-desc">
+            We map your current sleep, work hours, energy cycles, and daily stressors to pinpoint exactly where friction occurs.
+          </p>
+        </div>
+        <div class="method-card">
+          <div class="method-number">02</div>
+          <h3 class="method-title">Tailored Micro-Habits</h3>
+          <p class="method-desc">
+            We co-design tiny, frictionless actions that seamlessly slot into your routine without disrupting your work schedule.
+          </p>
+        </div>
+        <div class="method-card">
+          <div class="method-number">03</div>
+          <h3 class="method-title">Ongoing Accountability</h3>
+          <p class="method-desc">
+            Weekly video reviews plus daily async WhatsApp support ensure you stay consistent through inevitable busy spells.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programmes & Pricing Section -->
+  <section id="programmes" class="coach-programs">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Structured Packages</span>
+        <h2 class="section-title">Choose Your Coaching Journey</h2>
+        <p class="section-subtitle">
+          Transparent investment for personal growth. All programmes include private sessions and direct coach access.
+        </p>
+      </div>
+
+      <div class="programs-grid">
+        <article class="program-card" *ngFor="let prog of programs">
+          <div class="program-header">
+            <h3 class="program-title">{{ prog.title }}</h3>
+            <div class="program-duration">{{ prog.duration }}</div>
+            <div class="program-price">{{ prog.price }}</div>
+          </div>
+          <p class="program-summary">{{ prog.summary }}</p>
+          <div class="program-recommended">
+            <strong>Ideal for:</strong> {{ prog.recommendedFor }}
+          </div>
+          <ul class="program-highlights">
+            <li *ngFor="let point of prog.highlights">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>{{ point }}</span>
+            </li>
+          </ul>
+          <div class="program-footer">
+            <a [href]="generateWhatsAppUrl(prog.title)" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-block">
+              Enquire for {{ prog.title }}
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Box -->
+  <section class="coach-enquiry-section">
+    <div class="container">
+      <div class="coach-cta-box">
+        <h2 class="cta-box-title">Ready to Discuss Your Goals?</h2>
+        <p class="cta-box-desc">
+          Drop a message on WhatsApp with your primary challenge. Let's see if our coaching approach is the right fit for you.
+        </p>
+        <a [href]="generateWhatsAppUrl()" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
+          <span>Start WhatsApp Conversation</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
