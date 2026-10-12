@@ -60,6 +60,42 @@
   --container-padding: 1.25rem;
 }
 
+/* Dark Mode Tokens (Active when data-theme="dark" on root) */
+[data-theme="dark"] {
+  --color-bg: #090d16;
+  --color-surface: #0f172a;
+  --color-surface-subtle: #172033;
+  --color-surface-hover: #1e293b;
+  --color-border: #1e293b;
+  --color-border-subtle: #25334c;
+  --color-border-focus: #3b82f6;
+
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #94a3b8;
+  --color-text-tertiary: #64748b;
+  --color-text-inverse: #0f172a;
+
+  --color-accent: #3b82f6;
+  --color-accent-hover: #60a5fa;
+  --color-accent-active: #2563eb;
+  --color-accent-subtle: rgba(59, 130, 246, 0.14);
+  --color-accent-border: rgba(59, 130, 246, 0.35);
+
+  --color-success: #4ade80;
+  --color-success-bg: rgba(22, 101, 52, 0.24);
+  --color-success-border: rgba(74, 222, 128, 0.35);
+  --color-warning: #fbbf24;
+  --color-warning-bg: rgba(180, 83, 9, 0.24);
+  --color-error: #f87171;
+  --color-error-bg: rgba(185, 28, 28, 0.24);
+  --color-error-border: rgba(248, 113, 113, 0.35);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 6px 14px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 14px 28px -4px rgba(0, 0, 0, 0.7);
+}
+
 /* ==========================================================================
    RESET & BASE STYLES
    ========================================================================== */

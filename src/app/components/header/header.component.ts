@@ -1,7 +1,8 @@
-import { Component, HostListener, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { PORTFOLIO_CONFIG } from '../../core/config/portfolio.config';
+import { ThemeService } from '../../core/services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -12,6 +13,7 @@ import { PORTFOLIO_CONFIG } from '../../core/config/portfolio.config';
 })
 export class HeaderComponent {
   readonly config = PORTFOLIO_CONFIG;
+  readonly themeService = inject(ThemeService);
   isMobileMenuOpen = signal<boolean>(false);
   isScrolled = signal<boolean>(false);
 

@@ -1,3 +1,44 @@
 <app-header></app-header>
 <router-outlet></router-outlet>
 <app-footer></app-footer>
+
+<!-- Floating Mobile Quick-Action Dock (Active on mobile screens <= 768px) -->
+<aside class="mobile-quick-dock" aria-label="Quick mobile contacts">
+  <div class="mobile-dock-inner">
+    <a 
+      [href]="'https://wa.me/' + config.developer.contact.whatsappNumber + '?text=Hi%20Elanselvan,%20I%20am%20interested%20in%20a%20website%20for%20my%20business.'"
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="dock-btn dock-btn-whatsapp"
+      aria-label="Chat directly on WhatsApp"
+    >
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.586 1.776.848 2.796.848 3.182 0 5.769-2.587 5.769-5.766.001-3.181-2.586-5.766-5.769-5.766zm3.377 8.204c-.149.421-.734.787-1.196.883-.346.071-.786.131-2.312-.5-.195-.081-.397-.184-.606-.298-1.527-.835-2.518-2.39-2.595-2.492-.075-.102-.622-.828-.622-1.58 0-.752.392-1.122.531-1.274.14-.151.306-.189.408-.189.102 0 .204.001.294.006.095.004.223-.036.349.266.13.313.447 1.092.485 1.17.038.079.064.171.013.273-.051.102-.077.166-.153.255-.077.089-.161.198-.231.266-.077.075-.157.157-.067.311.09.154.398.658.854 1.064.588.523 1.084.685 1.238.761.153.077.243.064.333-.038.089-.103.383-.446.485-.599.102-.153.204-.128.344-.077.14.051.892.421 1.045.498.153.077.255.115.293.179.039.064.039.37-.11.791z"/>
+      </svg>
+      <span>WhatsApp</span>
+    </a>
+
+    <a 
+      [href]="'tel:' + config.developer.contact.phoneFormatted" 
+      class="dock-btn dock-btn-call"
+      aria-label="Direct Phone Call"
+    >
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+      </svg>
+      <span>Call</span>
+    </a>
+
+    <a 
+      routerLink="/" 
+      fragment="contact" 
+      class="dock-btn dock-btn-enquire"
+      aria-label="Enquire Online"
+    >
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+      </svg>
+      <span>Enquire</span>
+    </a>
+  </div>
+</aside>

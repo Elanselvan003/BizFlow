@@ -3,3 +3,102 @@
   flex-direction: column;
   min-height: 100vh;
 }
+
+/* ==========================================================================
+   FLOATING MOBILE QUICK-ACTION DOCK
+   Only visible on mobile viewports (<= 768px)
+   ========================================================================== */
+.mobile-quick-dock {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  padding: 0.625rem 1rem calc(0.625rem + env(safe-area-inset-bottom, 0px));
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--color-border);
+  box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.08);
+  transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+[data-theme="dark"] .mobile-quick-dock {
+  background-color: rgba(15, 23, 42, 0.92);
+  border-top-color: var(--color-border);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  .mobile-quick-dock {
+    display: block;
+  }
+
+  /* Add comfortable bottom spacing so the floating dock doesn't obscure content */
+  :host {
+    padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+.mobile-dock-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.dock-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 0.5rem;
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.dock-btn:active {
+  transform: scale(0.97);
+}
+
+.dock-btn-whatsapp {
+  background-color: #25d366;
+  color: #ffffff;
+  flex: 1.35;
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.35);
+}
+
+.dock-btn-whatsapp:hover {
+  background-color: #1ea952;
+}
+
+.dock-btn-call {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.dock-btn-call:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.dock-btn-enquire {
+  background-color: var(--color-accent-subtle);
+  border-color: var(--color-accent-border);
+  color: var(--color-accent);
+}
+
+.dock-btn-enquire:hover {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
