@@ -18,6 +18,23 @@ export interface User {
   email: string;
   full_name: string;
   role: string;
+  status?: 'active' | 'deactivated';
+}
+
+export interface UserAccount {
+  id: string;
+  email: string;
+  full_name: string;
+  role: string;
+  status: 'active' | 'deactivated';
+  created_at: string;
+  updated_at: string;
+  business_name?: string;
+  currency?: string;
+  currency_symbol?: string;
+  customer_count?: number;
+  booking_count?: number;
+  invoice_count?: number;
 }
 
 export interface BusinessSettings {

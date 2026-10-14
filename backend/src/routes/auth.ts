@@ -43,8 +43,8 @@ authRouter.post('/register', async (c) => {
   // Create user & initial business settings
   const batchRes = await c.env.DB.batch([
     c.env.DB.prepare(
-      `INSERT INTO users (id, email, password_hash, salt, full_name, role, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, 'owner', ?, ?)`
+      `INSERT INTO users (id, email, password_hash, salt, full_name, role, status, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, 'owner', 'active', ?, ?)`
     ).bind(userId, email.toLowerCase().trim(), hash, salt, full_name.trim(), now, now),
     c.env.DB.prepare(
       `INSERT INTO business_settings (id, user_id, business_name, email, created_at, updated_at)
@@ -63,7 +63,8 @@ authRouter.post('/register', async (c) => {
       id: userId,
       email: email.toLowerCase().trim(),
       full_name: full_name.trim(),
-      role: 'owner'
+      role: 'owner',
+      status: 'active'
     },
     settings: {
       id: settingsId,
@@ -100,6 +101,15 @@ authRouter.post('/login', async (c) => {
     return jsonError(c, 'Invalid email or password', 401);
   }
 
+  // Verify account is active
+  if (user.status === 'deactivated') {
+    return jsonError(
+      c,
+      'Your account has been deactivated. Please contact the administrator (elanselvan1997@gmail.com) for account activation.',
+      403
+    );
+  }
+
   // Fetch business settings
   const settings = await c.env.DB.prepare(
     'SELECT * FROM business_settings WHERE user_id = ?'
@@ -116,7 +126,8 @@ authRouter.post('/login', async (c) => {
       id: user.id,
       email: user.email,
       full_name: user.full_name,
-      role: user.role
+      role: user.role,
+      status: user.status || 'active'
     },
     settings
   });
@@ -132,11 +143,19 @@ authRouter.get('/me', authMiddleware, async (c) => {
   const userId = c.get('userId');
 
   const user = await c.env.DB.prepare(
-    'SELECT id, email, full_name, role, created_at, updated_at FROM users WHERE id = ?'
-  ).bind(userId).first();
+    'SELECT id, email, full_name, role, status, created_at, updated_at FROM users WHERE id = ?'
+  ).bind(userId).first<User>();
 
   if (!user) {
     return jsonError(c, 'User not found', 404);
+  }
+
+  if (user.status === 'deactivated') {
+    return jsonError(
+      c,
+      'Your account has been deactivated. Please contact the administrator (elanselvan1997@gmail.com) for account activation.',
+      403
+    );
   }
 
   const settings = await c.env.DB.prepare(

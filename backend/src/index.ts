@@ -10,6 +10,7 @@ import { bookingsRouter } from './routes/bookings';
 import { invoicesRouter } from './routes/invoices';
 import { reportsRouter } from './routes/reports';
 import { settingsRouter } from './routes/settings';
+import { usersRouter } from './routes/users';
 
 const app = new Hono<{ Bindings: Bindings; Variables: Variables }>();
 
@@ -26,7 +27,7 @@ app.use('*', async (c, next) => {
       }
       return '*'; // Allow client-side demo requests
     },
-    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Content-Type', 'Authorization'],
     exposeHeaders: ['Content-Length'],
     maxAge: 86400,
@@ -60,6 +61,7 @@ app.route('/api/bookings', bookingsRouter);
 app.route('/api/invoices', invoicesRouter);
 app.route('/api/reports', reportsRouter);
 app.route('/api/settings', settingsRouter);
+app.route('/api/users', usersRouter);
 
 // 404 handler
 app.notFound((c) => {

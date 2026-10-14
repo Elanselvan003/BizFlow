@@ -22,7 +22,7 @@ import { ToastContainerComponent } from '../../shared/components/toast-container
         <div class="sidebar-header">
           <div class="brand">
             <div class="brand-logo">
-              <span class="material-symbols-outlined logo-icon">insights</span>
+              <img src="favicon.svg" alt="BizFlow Logo" class="brand-img" />
             </div>
             <div class="brand-info">
               <span class="brand-name">BizFlow</span>
@@ -73,6 +73,16 @@ import { ToastContainerComponent } from '../../shared/components/toast-container
             <span class="material-symbols-outlined nav-icon">settings</span>
             <span class="nav-label">{{ 'nav.settings' | t }}</span>
           </a>
+
+          @if (auth.isAdmin()) {
+            <div class="nav-section-title">ADMINISTRATION</div>
+
+            <a routerLink="/users" routerLinkActive="active" (click)="closeMobileMenu()" class="nav-item">
+              <span class="material-symbols-outlined nav-icon">manage_accounts</span>
+              <span class="nav-label">User Accounts</span>
+              <span class="admin-nav-tag">Admin</span>
+            </a>
+          }
         </nav>
 
         <div class="sidebar-footer">
@@ -198,17 +208,31 @@ import { ToastContainerComponent } from '../../shared/components/toast-container
     .brand-logo {
       width: 2.5rem;
       height: 2.5rem;
-      background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
       border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #ffffff;
       box-shadow: 0 4px 10px rgba(79, 70, 229, 0.35);
+      overflow: hidden;
     }
 
-    .logo-icon {
-      font-size: 1.5rem;
+    .brand-img {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      display: block;
+    }
+
+    .admin-nav-tag {
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(79, 70, 229, 0.15);
+      color: var(--primary);
+      padding: 0.15rem 0.45rem;
+      border-radius: 9999px;
+      margin-left: auto;
     }
 
     .brand-name {
@@ -574,6 +598,7 @@ export class MainLayoutComponent {
     if (url.includes('/invoices')) return this.trans.translate('nav.invoices');
     if (url.includes('/reports')) return this.trans.translate('nav.reports');
     if (url.includes('/settings')) return this.trans.translate('nav.settings');
+    if (url.includes('/users')) return 'User Accounts & Access';
     return 'BizFlow';
   }
 }
