@@ -6,20 +6,19 @@ import { authMiddleware } from '../middleware/auth';
 export const usersRouter = new Hono<{ Bindings: Bindings; Variables: Variables }>();
 usersRouter.use('*', authMiddleware);
 
-// Helper to check if caller has admin permissions
-const ADMIN_EMAILS = ['elanselvan1997@gmail.com'];
+// Only the primary platform administrator can access user management
+const PRIMARY_ADMIN_EMAIL = 'elanselvan1997@gmail.com';
 
-function isAdmin(userEmail: string, userRole: string): boolean {
-  return ADMIN_EMAILS.includes(userEmail.toLowerCase().trim()) || userRole === 'owner' || userRole === 'admin';
+function isSystemAdmin(userEmail?: string): boolean {
+  return typeof userEmail === 'string' && userEmail.toLowerCase().trim() === PRIMARY_ADMIN_EMAIL;
 }
 
 // 1. GET /api/users - List all registered user accounts with business details
 usersRouter.get('/', async (c) => {
   const callerEmail = c.get('userEmail');
-  const callerRole = c.get('userRole');
 
-  if (!isAdmin(callerEmail, callerRole)) {
-    return jsonError(c, 'Access restricted to system administrators', 403);
+  if (!isSystemAdmin(callerEmail)) {
+    return jsonError(c, 'Access restricted to system administrator (elanselvan1997@gmail.com)', 403);
   }
 
   const query = `
@@ -51,11 +50,10 @@ usersRouter.get('/', async (c) => {
 const handleStatusUpdate = async (c: Context<{ Bindings: Bindings; Variables: Variables }>) => {
   const callerId = c.get('userId');
   const callerEmail = c.get('userEmail');
-  const callerRole = c.get('userRole');
   const targetId = c.req.param('id');
 
-  if (!isAdmin(callerEmail, callerRole)) {
-    return jsonError(c, 'Access restricted to system administrators', 403);
+  if (!isSystemAdmin(callerEmail)) {
+    return jsonError(c, 'Access restricted to system administrator (elanselvan1997@gmail.com)', 403);
   }
 
   const body = await c.req.json().catch(() => null);
@@ -83,7 +81,7 @@ const handleStatusUpdate = async (c: Context<{ Bindings: Bindings; Variables: Va
   }
 
   // Also prevent deactivating the primary platform administrator
-  if (ADMIN_EMAILS.includes(targetUser.email.toLowerCase()) && newStatus === 'deactivated') {
+  if (targetUser.email.toLowerCase().trim() === PRIMARY_ADMIN_EMAIL && newStatus === 'deactivated') {
     return jsonError(c, 'The primary platform administrator account cannot be deactivated', 400);
   }
 
