@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UsersService } from '../../core/services/users.service';
 import { AuthService } from '../../core/services/auth.service';
 import { NotificationService } from '../../core/services/notification.service';
@@ -622,6 +623,7 @@ export class UsersComponent implements OnInit {
   private usersService = inject(UsersService);
   private authService = inject(AuthService);
   private notify = inject(NotificationService);
+  private router = inject(Router);
 
   users = signal<UserAccount[]>([]);
   isLoading = signal<boolean>(false);
@@ -656,6 +658,10 @@ export class UsersComponent implements OnInit {
   });
 
   ngOnInit() {
+    if (!this.authService.isAdmin()) {
+      this.router.navigate(['/dashboard']);
+      return;
+    }
     this.loadUsers();
   }
 
@@ -704,7 +710,7 @@ export class UsersComponent implements OnInit {
   }
 
   isPrimaryAdmin(user: UserAccount): boolean {
-    return user.email?.toLowerCase().trim() === 'elanselvan1997@gmail.com' || this.isCurrentUser(user);
+    return user.email?.toLowerCase().trim() === 'elanselvan1997@gmail.com';
   }
 
   getInitials(name: string): string {

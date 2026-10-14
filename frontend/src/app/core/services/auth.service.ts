@@ -23,7 +23,7 @@ export class AuthService {
   isAdmin = computed(() => {
     const user = this.currentUser();
     if (!user) return false;
-    return user.email?.toLowerCase().trim() === 'elanselvan1997@gmail.com' || user.role === 'owner' || user.role === 'admin';
+    return user.email?.toLowerCase().trim() === 'elanselvan1997@gmail.com';
   });
 
   constructor() {
