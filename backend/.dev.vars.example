@@ -1,0 +1,4 @@
+# Local Cloudflare Workers environment variables (Template)
+JWT_SECRET=your_jwt_secret_min_32_chars_here
+ENVIRONMENT=development
+FRONTEND_URL=http://localhost:4200

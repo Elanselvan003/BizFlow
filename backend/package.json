@@ -1,0 +1,24 @@
+{
+  "name": "bizflow-backend",
+  "version": "1.0.0",
+  "description": "BizFlow Cloudflare Workers REST API",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "d1:migrate:local": "wrangler d1 migrations apply bizflow-db --local",
+    "d1:seed:local": "wrangler d1 execute bizflow-db --local --file=./migrations/0002_seed_data.sql"
+  },
+  "dependencies": {
+    "hono": "^4.7.4"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250224.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.7",
+    "wrangler": "^4.151.0"
+  }
+}
