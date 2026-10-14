@@ -31,6 +31,10 @@ export class NotificationService {
     this.show(message, 'error', 4500);
   }
 
+  warning(message: string) {
+    this.show(message, 'info', 4000);
+  }
+
   info(message: string) {
     this.show(message, 'info');
   }

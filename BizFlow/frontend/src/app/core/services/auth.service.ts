@@ -18,7 +18,13 @@ export class AuthService {
   currentUser = signal<User | null>(null);
   businessSettings = signal<BusinessSettings | null>(null);
   isLoading = signal<boolean>(false);
+  lastAuthError = signal<string | null>(null);
   isAuthenticated = computed(() => !!this.currentUser() && !!this.getToken());
+  isAdmin = computed(() => {
+    const user = this.currentUser();
+    if (!user) return false;
+    return user.email?.toLowerCase().trim() === 'elanselvan1997@gmail.com' || user.role === 'owner' || user.role === 'admin';
+  });
 
   constructor() {
     this.initSession();
@@ -47,23 +53,28 @@ export class AuthService {
 
   login(credentials: { email: string; password: string }) {
     this.isLoading.set(true);
+    this.lastAuthError.set(null);
     return this.api.post<{ token: string; user: User; settings: BusinessSettings }>('/auth/login', credentials).pipe(
       tap({
         next: (res) => {
           this.isLoading.set(false);
           if (res.success && res.data) {
+            this.lastAuthError.set(null);
             this.setToken(res.data.token);
             this.currentUser.set(res.data.user);
             this.businessSettings.set(res.data.settings);
             this.notify.success(`Welcome back, ${res.data.user.full_name}!`);
             this.router.navigate(['/dashboard']);
           } else {
-            this.notify.error(res.error || 'Login failed');
+            const err = res.error || 'Login failed';
+            this.lastAuthError.set(err);
+            this.notify.error(err);
           }
         },
         error: (err) => {
           this.isLoading.set(false);
           const msg = err.error?.error || 'Invalid credentials or network error';
+          this.lastAuthError.set(msg);
           this.notify.error(msg);
         }
       })

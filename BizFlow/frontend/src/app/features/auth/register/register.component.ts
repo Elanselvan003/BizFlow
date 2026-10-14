@@ -12,7 +12,7 @@ import { AuthService } from '../../../core/services/auth.service';
     <div class="bf-card auth-card">
       <div class="auth-header">
         <div class="brand-badge">
-          <span class="material-symbols-outlined logo-icon">insights</span>
+          <img src="favicon.svg" alt="BizFlow Logo" class="auth-brand-img" />
         </div>
         <h1 class="auth-title">Create your Account</h1>
         <p class="auth-subtitle">Get started with BizFlow Business Management Suite</p>
@@ -109,17 +109,19 @@ import { AuthService } from '../../../core/services/auth.service';
     .brand-badge {
       width: 3.25rem;
       height: 3.25rem;
-      background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
       border-radius: var(--radius-lg);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      color: #ffffff;
       box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
       margin-bottom: 1rem;
+      overflow: hidden;
     }
-    .brand-badge .logo-icon {
-      font-size: 1.85rem;
+    .auth-brand-img {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      display: block;
     }
     .auth-title {
       font-size: 1.5rem;

@@ -12,23 +12,28 @@ import { AuthService } from '../../../core/services/auth.service';
     <div class="bf-card auth-card">
       <div class="auth-header">
         <div class="brand-badge">
-          <span class="material-symbols-outlined logo-icon">insights</span>
+          <img src="favicon.svg" alt="BizFlow Logo" class="auth-brand-img" />
         </div>
         <h1 class="auth-title">Welcome to BizFlow</h1>
         <p class="auth-subtitle">Sign in to manage your clients, bookings, and billing</p>
       </div>
 
-      <!-- Quick Demo Account Fill Button -->
-      <div class="demo-box">
-        <div class="demo-info">
-          <span class="demo-tag">Demo Mode</span>
-          <span class="demo-text">Explore with pre-seeded data & reports</span>
+      <!-- Deactivated Account Alert -->
+      @if (auth.lastAuthError() && auth.lastAuthError()!.includes('deactivated')) {
+        <div class="deactivated-alert">
+          <div class="alert-icon-box">
+            <span class="material-symbols-outlined">block</span>
+          </div>
+          <div class="alert-text">
+            <h4 class="alert-heading">Account Deactivated</h4>
+            <p class="alert-desc">{{ auth.lastAuthError() }}</p>
+            <a href="mailto:elanselvan1997@gmail.com?subject=BizFlow Account Activation Request" class="alert-action-btn">
+              <span class="material-symbols-outlined">mail</span>
+              <span>Contact Administrator (elanselvan1997@gmail.com)</span>
+            </a>
+          </div>
         </div>
-        <button type="button" class="btn btn-secondary btn-sm demo-fill-btn" (click)="fillDemoCredentials()">
-          <span class="material-symbols-outlined">auto_fix_high</span>
-          <span>Quick Fill Demo</span>
-        </button>
-      </div>
+      }
 
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
         <div class="form-group">
@@ -95,17 +100,84 @@ import { AuthService } from '../../../core/services/auth.service';
     .brand-badge {
       width: 3.25rem;
       height: 3.25rem;
-      background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
       border-radius: var(--radius-lg);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      color: #ffffff;
       box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
       margin-bottom: 1rem;
+      overflow: hidden;
     }
-    .brand-badge .logo-icon {
-      font-size: 1.85rem;
+    .auth-brand-img {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      display: block;
+    }
+    .deactivated-alert {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-left: 4px solid var(--danger);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .alert-icon-box {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      background: rgba(239, 68, 68, 0.12);
+      color: var(--danger);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .alert-icon-box span {
+      font-size: 1.35rem;
+    }
+    .alert-text {
+      flex: 1;
+    }
+    .alert-heading {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: #991b1b;
+      margin: 0 0 0.25rem 0;
+    }
+    .alert-desc {
+      font-size: 0.8125rem;
+      color: #7f1d1d;
+      margin: 0 0 0.75rem 0;
+      line-height: 1.4;
+    }
+    .alert-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      background: var(--danger);
+      color: #ffffff;
+      padding: 0.4rem 0.875rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.15s ease;
+    }
+    .alert-action-btn:hover {
+      background: #dc2626;
+      text-decoration: none;
+    }
+    .alert-action-btn span {
+      font-size: 0.95rem;
     }
     .auth-title {
       font-size: 1.5rem;
@@ -116,42 +188,6 @@ import { AuthService } from '../../../core/services/auth.service';
     .auth-subtitle {
       font-size: 0.875rem;
       color: var(--text-muted);
-    }
-    .demo-box {
-      background: var(--primary-light);
-      border: 1px dashed #c7d2fe;
-      border-radius: var(--radius-md);
-      padding: 0.75rem 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-    }
-    .demo-info {
-      display: flex;
-      flex-direction: column;
-    }
-    .demo-tag {
-      font-size: 0.6875rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--primary);
-    }
-    .demo-text {
-      font-size: 0.75rem;
-      color: #4338ca;
-    }
-    .demo-fill-btn {
-      white-space: nowrap;
-      font-size: 0.75rem;
-      padding: 0.35rem 0.65rem;
-      border-color: #a5b4fc;
-      background: #ffffff;
-      color: var(--primary);
-    }
-    .demo-fill-btn:hover {
-      background: #f5f3ff;
     }
     .btn-block {
       width: 100%;
@@ -196,16 +232,9 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
 
   loginForm = this.fb.group({
-    email: ['elanselvan1997@gmail.com', [Validators.required, Validators.email]],
-    password: ['Admin123!', [Validators.required, Validators.minLength(8)]]
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(8)]]
   });
-
-  fillDemoCredentials() {
-    this.loginForm.setValue({
-      email: 'elanselvan1997@gmail.com',
-      password: 'Admin123!'
-    });
-  }
 
   onSubmit() {
     if (this.loginForm.valid) {

@@ -33,6 +33,7 @@ export interface User {
   salt: string;
   full_name: string;
   role: string;
+  status: 'active' | 'deactivated';
   created_at: string;
   updated_at: string;
 }
