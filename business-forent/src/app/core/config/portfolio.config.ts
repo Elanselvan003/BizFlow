@@ -42,11 +42,11 @@ export const PORTFOLIO_CONFIG: PortfolioConfig = {
       }
     ],
     contact: {
-      email: 'elanselvan1997@gmail.com',
+      email: 'ktworkselvan@gmail.com',
       phoneFormatted: '+91 86105 85062',
       whatsappNumber: '918610585062',
       whatsappDisplay: '+91 86105 85062',
-      officeHours: 'Mon - Sat: 10:00 AM - 7:00 PM IST',
+      officeHours: 'All Days',
     }
   },
 
