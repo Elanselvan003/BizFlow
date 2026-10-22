@@ -48,6 +48,90 @@
 </html> -->
 
 
+<!-- <!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Link Generator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 420px;
+      margin: 60px auto;
+      padding: 0 16px;
+    }
+
+    input,
+    select,
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    button {
+      background: #111;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    #out {
+      margin-top: 16px;
+      padding: 12px;
+      background: #f2f2f2;
+      border-radius: 6px;
+      word-break: break-all;
+      display: none;
+    }
+
+    #copy {
+      background: #0a7;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Generate a send link</h2>
+  <input id="uid" placeholder="User name / id (e.g. rahul)">
+  <select id="src">
+    <option>whatsapp</option>
+    <option>instagram</option>
+    <option>x</option>
+    <option>email</option>
+    <option>other</option>
+  </select>
+  <button onclick="gen()">Generate link</button>
+
+  <div id="out"></div>
+  <button id="copy" style="display:none" onclick="copy()">Copy link</button>
+
+  <script>
+    function gen() {
+      const uid = document.getElementById('uid').value.trim() || 'unknown';
+      const src = document.getElementById('src').value;
+      const link = location.origin + '/capture?uid=' + encodeURIComponent(uid) + '&src=' + src;
+      const out = document.getElementById('out');
+      out.style.display = 'block';
+      out.textContent = link;
+      document.getElementById('copy').style.display = 'block';
+      out.dataset.link = link;
+    }
+    function copy() {
+      const link = document.getElementById('out').dataset.link;
+      navigator.clipboard.writeText(link);
+      alert('Copied:\n' + link);
+    }
+  </script>
+</body>
+
+</html> -->
+
 <!DOCTYPE html>
 <html>
 
