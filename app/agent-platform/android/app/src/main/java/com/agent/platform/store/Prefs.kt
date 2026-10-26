@@ -7,7 +7,7 @@ class Prefs(context: Context) {
     private val sp: SharedPreferences = context.getSharedPreferences("agent_prefs", Context.MODE_PRIVATE)
 
     var serverUrl: String
-        get() = sp.getString("server_url", "https://api.orvian.com") ?: "https://api.orvian.com"
+        get() = sp.getString("server_url", "https://orvian.elanselvanbizflow.workers.dev") ?: "https://orvian.elanselvanbizflow.workers.dev"
         set(value) = sp.edit().putString("server_url", value).apply()
 
     var deviceId: String
