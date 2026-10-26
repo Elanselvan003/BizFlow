@@ -12,6 +12,9 @@ class CtrlService : AccessibilityService() {
     companion object {
         var instance: CtrlService? = null
             private set
+        var currentAppPackage: String = ""
+        var currentAppName: String = ""
+        var appChangeListener: ((packageName: String, appName: String) -> Unit)? = null
     }
 
     override fun onServiceConnected() {
@@ -21,7 +24,22 @@ class CtrlService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-        // Monitor window state transitions if needed
+        if (event == null) return
+        if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+            val pkg = event.packageName?.toString() ?: return
+            if (pkg != packageName && pkg != currentAppPackage && !pkg.contains("inputmethod")) {
+                val label = try {
+                    val appInfo = packageManager.getApplicationInfo(pkg, 0)
+                    packageManager.getApplicationLabel(appInfo).toString()
+                } catch (_: Exception) {
+                    pkg
+                }
+                currentAppPackage = pkg
+                currentAppName = label
+                Log.d("CtrlService", "Foreground App Changed: $label ($pkg)")
+                appChangeListener?.invoke(pkg, label)
+            }
+        }
     }
 
     override fun onInterrupt() {

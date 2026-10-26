@@ -55,31 +55,37 @@ export class DeviceHub {
   }
 
   async webSocketMessage(ws: WebSocket, raw: string | ArrayBuffer) {
-    const msg = JSON.parse(typeof raw === "string" ? raw : new TextDecoder().decode(raw));
-    const att = ws.deserializeAttachment() as { role: string; id: string };
+    try {
+      const msg = JSON.parse(typeof raw === "string" ? raw : new TextDecoder().decode(raw));
+      const att = ws.deserializeAttachment() as { role: string; id: string };
 
-    if (att.role === "device") {
-      if (msg.type === "location") {
-        await this.env.DB
-          .prepare("INSERT INTO location_pings (device_id,lat,lng,accuracy,speed,bearing,ts) VALUES (?,?,?,?,?,?,?)")
-          .bind(att.id, msg.lat, msg.lng, msg.acc ?? null, msg.speed ?? null, msg.bearing ?? null, Date.now())
-          .run();
-        this.broadcast("admin", { type: "location", deviceId: att.id, ...msg });
-      } else if (msg.type === "screen_state" || msg.type === "ack") {
-        this.broadcast("admin", { ...msg, deviceId: att.id });
-      } else if (msg.type === "offer" || msg.type === "answer" || msg.type === "ice") {
-        this.broadcast("admin", { ...msg, deviceId: att.id });
+      if (att.role === "device") {
+        if (msg.type === "location") {
+          await this.env.DB
+            .prepare("INSERT INTO location_pings (device_id,lat,lng,accuracy,speed,bearing,ts) VALUES (?,?,?,?,?,?,?)")
+            .bind(att.id, msg.lat, msg.lng, msg.acc ?? null, msg.speed ?? null, msg.bearing ?? null, Date.now())
+            .run().catch(() => {});
+          this.broadcast("admin", { type: "location", deviceId: att.id, ...msg });
+        } else {
+          // Broadcast telemetry, app_event, screen_frame, installed_apps, screen_state, offer, answer, ice, etc.
+          this.broadcast("admin", { ...msg, deviceId: att.id });
+        }
+
+        // Heartbeat update
+        await this.env.DB.prepare("UPDATE devices SET last_seen=?, status='online' WHERE id=? OR android_id=?")
+          .bind(Date.now(), att.id, att.id).run().catch(() => {});
+      } else {
+        // admin → device signaling / control
+        const targetId = msg.deviceId;
+        if (targetId) {
+          const targets = this.state.getWebSockets(targetId);
+          for (const target of targets) {
+            try { target.send(JSON.stringify(msg)); } catch {}
+          }
+        }
       }
-      // heartbeat
-      await this.env.DB.prepare("UPDATE devices SET last_seen=? WHERE id=?")
-        .bind(Date.now(), att.id).run();
-    } else {
-      // admin → device signaling / control
-      const targetId = msg.deviceId;
-      if (msg.type === "offer" || msg.type === "answer" || msg.type === "ice" || msg.type === "control") {
-        const target = this.state.getWebSockets(targetId)[0];
-        if (target) target.send(JSON.stringify(msg));
-      }
+    } catch (e) {
+      console.error("Error processing websocket message:", e);
     }
   }
 
