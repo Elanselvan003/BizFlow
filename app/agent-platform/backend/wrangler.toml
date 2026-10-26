@@ -1,0 +1,25 @@
+name = "orvian"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "orviandb"
+database_id = "90d5b9ad-386f-46ab-af17-84ba4664f2e3"
+
+[[durable_objects.bindings]]
+name = "HUB"
+class_name = "DeviceHub"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["DeviceHub"]
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[vars]
+PUBLIC_HOST = "https://orvian.elanselvanbizflow.workers.dev"
+JWT_SECRET = "orvian-production-super-secret-jwt-key"

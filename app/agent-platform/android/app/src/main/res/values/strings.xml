@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Orvian</string>
+    <string name="accessibility_service_description">Enables secure remote control input injection for Orvian administrators.</string>
+</resources>
