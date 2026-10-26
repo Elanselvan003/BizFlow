@@ -50,9 +50,16 @@ class MainActivity : ComponentActivity() {
             prefs.deviceId = UUID.randomUUID().toString()
         }
 
+        // Deep link extraction (orvian://bind?token=...&host=...)
+        val deepLinkToken = intent?.data?.getQueryParameter("token").orEmpty()
+        val deepLinkHost = intent?.data?.getQueryParameter("host").orEmpty()
+        if (deepLinkHost.isNotEmpty()) {
+            prefs.serverUrl = deepLinkHost
+        }
+
         setContent {
             var serverUrl by remember { mutableStateOf(prefs.serverUrl) }
-            var inviteCode by remember { mutableStateOf("") }
+            var inviteCode by remember { mutableStateOf(deepLinkToken) }
             var isPaired by remember { mutableStateOf(prefs.isPaired) }
             var isLoading by remember { mutableStateOf(false) }
             val isAccessibilityEnabled = CtrlService.instance != null
@@ -84,6 +91,17 @@ class MainActivity : ComponentActivity() {
                             prefs.isPaired = true
                             isPaired = true
                             Toast.makeText(this@MainActivity, "Device paired successfully!", Toast.LENGTH_LONG).show()
+
+                            // Start background AgentService for telemetry & remote control
+                            val serviceIntent = Intent(this@MainActivity, AgentService::class.java).apply {
+                                action = AgentService.ACTION_START
+                            }
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                startForegroundService(serviceIntent)
+                            } else {
+                                startService(serviceIntent)
+                            }
+
                             // Auto-prompt screen share
                             val mpm = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
                             projectionLauncher.launch(mpm.createScreenCaptureIntent())

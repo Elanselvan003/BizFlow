@@ -16,14 +16,14 @@ export default {
 
     // ---- WebSocket entry -> route into the admin's Durable Object ----
     if (url.pathname === "/ws") {
-      const role = url.searchParams.get("role");
-      const id = url.searchParams.get("id");
+      const role = url.searchParams.get("role") ?? url.searchParams.get("type");
+      const id = url.searchParams.get("id") ?? url.searchParams.get("deviceId");
       const adminId = url.searchParams.get("admin") ?? id ?? "";
-      if (!role || !id) return err("role and id required");
+      if (!role || !id) return err("role and id required", 400);
 
       let hubKey = adminId;
       if (role === "device") {
-        const dev = await env.DB.prepare("SELECT admin_id FROM devices WHERE id=?").bind(id).first<any>();
+        const dev = await env.DB.prepare("SELECT admin_id FROM devices WHERE id=? OR android_id=?").bind(id, id).first<any>();
         if (!dev) return err("unknown device", 404);
         hubKey = dev.admin_id;
       }
