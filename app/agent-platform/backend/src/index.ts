@@ -21,7 +21,6 @@ export default {
       const adminId = url.searchParams.get("admin") ?? id ?? "";
       if (!role || !id) return err("role and id required");
 
-      // devices join their admin's hub; admins join their own hub
       let hubKey = adminId;
       if (role === "device") {
         const dev = await env.DB.prepare("SELECT admin_id FROM devices WHERE id=?").bind(id).first<any>();
@@ -56,7 +55,6 @@ export default {
       const hist = url.pathname.match(/^\/api\/devices\/([^/]+)\/history$/);
       if (hist) return deviceHistory(env, hist[1]);
 
-      // proxy control command into the hub
       const ctl = url.pathname.match(/^\/api\/devices\/([^/]+)\/control$/);
       if (ctl && req.method === "POST") {
         const payload = await req.json<any>();
@@ -68,6 +66,26 @@ export default {
           body: JSON.stringify({ deviceId: ctl[1], ...payload }),
         }));
       }
+    }
+
+    // ---- Static assets (APK, index.html, etc.) ----
+    if (url.pathname.startsWith("/apk/")) {
+      const assetUrl = new URL(url.pathname, req.url);
+      const assetReq = new Request(assetUrl.toString(), { headers: req.headers });
+      if (env.ASSETS) {
+        const res = await env.ASSETS.fetch(assetReq);
+        if (res.status !== 404) {
+          const headers = new Headers(res.headers);
+          headers.set("Content-Type", "application/vnd.android.package-archive");
+          headers.set("Content-Disposition", 'attachment; filename="orvian-agent.apk"');
+          return new Response(res.body, { status: res.status, headers });
+        }
+      }
+    }
+
+    if (env.ASSETS) {
+      const res = await env.ASSETS.fetch(req);
+      if (res.status !== 404) return res;
     }
 
     return json({ ok: true, service: "orvian-api" });
